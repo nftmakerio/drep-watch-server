@@ -21,17 +21,32 @@ const createUser = async (
                 .json({ success: false, message: "Missing required fields" });
         }
 
-        // Check if the user already exists in Supabase
-        const existingUser = await supabase
+        // Check if the user already exists in Supabase by email
+        const existingUserByEmail = await supabase
             .from("dreps-users")
             .select("wallet_address")
             .eq("email", email)
             .single();
 
-        if (existingUser.data) {
+        // Check if the user already exists in Supabase by wallet address
+        const existingUserByWallet = await supabase
+            .from("dreps-users")
+            .select("email")
+            .eq("wallet_address", wallet_address)
+            .single();
+
+        // Handle cases where either email or wallet address is already in use
+        if (existingUserByEmail.data) {
             return res
                 .status(409)
-                .json({ success: false, message: "User already exists" });
+                .json({ success: false, message: "Email already exists" });
+        }
+
+        if (existingUserByWallet.data) {
+            return res.status(409).json({
+                success: false,
+                message: "Wallet address already exists",
+            });
         }
 
         // Create a new user in Supabase
@@ -50,6 +65,7 @@ const createUser = async (
             .status(201)
             .json({ success: true, message: "User created successfully" });
     } catch (error) {
+        console.log(error);
         return res
             .status(500)
             .json({ success: false, message: "Internal server error" });

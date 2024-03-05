@@ -21,20 +21,40 @@ const createDrep = async (
                 .json({ success: false, message: "Missing required fields" });
         }
 
-        // Check if the user already exists in Supabase
-        const existingUser = await supabase
+        // Check if the admin already exists in Supabase
+        const existingAdminByEmail = await supabase
             .from("dreps-admins")
             .select("drep_id")
             .eq("email", email)
             .single();
 
-        if (existingUser.data) {
+        // Check if the pool_id is already in use
+        const existingAdminByPoolId = await supabase
+            .from("dreps-admins")
+            .select("email")
+            .eq("drep_id", pool_id)
+            .single();
+
+        // Handle cases where either email or pool_id is already in use
+        if (existingAdminByEmail.data) {
             return res
                 .status(409)
-                .json({ success: false, message: "Admin already exists" });
+                .json({
+                    success: false,
+                    message: "Admin with this email already exists",
+                });
         }
 
-        // Create a new user in Supabase
+        if (existingAdminByPoolId.data) {
+            return res
+                .status(409)
+                .json({
+                    success: false,
+                    message: "Admin with this pool_id already exists",
+                });
+        }
+
+        // Create a new admin in Supabase
         const { error } = await supabase
             .from("dreps-admins")
             .upsert([{ email, name, drep_id: pool_id }]);
@@ -50,6 +70,7 @@ const createDrep = async (
             .status(201)
             .json({ success: true, message: "Admin created successfully" });
     } catch (error) {
+        console.error(error);
         return res
             .status(500)
             .json({ success: false, message: "Internal server error" });
