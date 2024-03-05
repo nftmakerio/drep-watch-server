@@ -1,8 +1,9 @@
-import {Router} from 'express';
-// import {create} from '../controllers/userController';
+import { Router } from "express";
+import { createUser } from "../controllers/userController";
 
-const router = Router();
+const userRoutes = Router();
 
-// router.post("/create", create);
+// http://localhost:4000/api/v1/create-user
+userRoutes.post("/create-user", createUser);
 
-export default router;
+export default userRoutes;
