@@ -1,21 +1,21 @@
 import type { Request, Response } from "express";
 import supabase from "../supabase/db";
 
-interface UserRequestBody {
+interface DrepRequestBody {
     email: string;
     name: string;
-    wallet_address: string;
+    pool_id: string;
 }
 
-const createUser = async (
-    req: Request<{}, {}, UserRequestBody>,
+const createDrep = async (
+    req: Request<{}, {}, DrepRequestBody>,
     res: Response
 ) => {
     try {
-        const { email, name, wallet_address } = req.body;
+        const { email, name, pool_id } = req.body;
 
         // Validate input
-        if (!email || !name || !wallet_address) {
+        if (!email || !name || !pool_id) {
             return res
                 .status(400)
                 .json({ success: false, message: "Missing required fields" });
@@ -23,21 +23,21 @@ const createUser = async (
 
         // Check if the user already exists in Supabase
         const existingUser = await supabase
-            .from("dreps-users")
-            .select("wallet_address")
+            .from("dreps-admins")
+            .select("drep_id")
             .eq("email", email)
             .single();
 
         if (existingUser.data) {
             return res
                 .status(409)
-                .json({ success: false, message: "User already exists" });
+                .json({ success: false, message: "Admin already exists" });
         }
 
         // Create a new user in Supabase
         const { error } = await supabase
-            .from("dreps-users")
-            .upsert([{ email, name, wallet_address }]);
+            .from("dreps-admins")
+            .upsert([{ email, name, drep_id: pool_id }]);
 
         if (error) {
             console.error(error);
@@ -48,7 +48,7 @@ const createUser = async (
 
         return res
             .status(201)
-            .json({ success: true, message: "User created successfully" });
+            .json({ success: true, message: "Admin created successfully" });
     } catch (error) {
         return res
             .status(500)
@@ -56,4 +56,4 @@ const createUser = async (
     }
 };
 
-export { createUser };
+export { createDrep };
