@@ -57,7 +57,8 @@ const createDrep = async (
         // Create a new admin in Supabase
         const { error } = await supabase
             .from("dreps-admins")
-            .upsert([{ email, name, drep_id: pool_id }]);
+            .insert([{ email, name, drep_id: pool_id }])
+            .select();
 
         if (error) {
             console.error(error);

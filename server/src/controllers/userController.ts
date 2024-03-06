@@ -52,7 +52,8 @@ const createUser = async (
         // Create a new user in Supabase
         const { error } = await supabase
             .from("dreps-users")
-            .upsert([{ email, name, wallet_address }]);
+            .insert([{ email, name, wallet_address }])
+            .select();
 
         if (error) {
             console.error(error);

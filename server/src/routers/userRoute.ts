@@ -3,7 +3,7 @@ import { createUser } from "../controllers/userController";
 
 const userRoutes = Router();
 
-// http://localhost:4000/api/v1/create-user
+// http://localhost:4000/api/v1/user/create
 userRoutes.post("/create", createUser);
 
 export default userRoutes;
