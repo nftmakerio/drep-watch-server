@@ -18,6 +18,7 @@ export const createQuestion = async (req: Request, res: Response) => {
 export const getQuestion = async (req: Request, res: Response) => {
     try {
         const questionId: number = parseInt(req.params.id);
+        console.log(questionId);
         const question = await QuestionModel.getQuestionById(questionId);
         if (!question)
             throw { status: 400, message: "Invalid questionId" };
@@ -29,10 +30,12 @@ export const getQuestion = async (req: Request, res: Response) => {
 }
 export const getQuestionsByTheme = async (req: Request, res: Response) => {
     try {
-        const theme = req.params.theme;
-        const questions = await QuestionModel.getQuestionByTheme(theme);
+        // console.log(req.params);
+        const reqTheme = (req.query.theme) as string;
+        console.log(reqTheme);
+        const questions = await QuestionModel.getQuestionByTheme(reqTheme);
         if (!questions)
-            throw { status: 400, message: `Could not fetch questions for ${theme}` };
+            throw { status: 400, message: `Could not fetch questions for ${reqTheme}` };
         res.status(200).json({ questions: questions });
 
     } catch (err: any) {

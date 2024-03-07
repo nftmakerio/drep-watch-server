@@ -5,14 +5,14 @@ interface Question {
     question_title: string;
     question_description: string;
     user_id: number;
-    drep_id: number;
+    drep_id: string;
 }
 class QuestionModel {
     private theme: string;
     private question_title: string;
     private question_description: string;
     private user_id: number;
-    private drep_id: number;
+    private drep_id: string;
 
     constructor({ theme, question_title, question_description, user_id, drep_id }: Question) {
         this.theme = theme;
@@ -38,6 +38,7 @@ class QuestionModel {
             return err;
         }
     }
+    //method to get a drep id 
     static async getQuestionById(id: number): Promise<Question | undefined> {
         try {
             const { data, error } = await supabase
@@ -61,11 +62,28 @@ class QuestionModel {
             return err;
         }
     }
+    //method to fetch the number o questions asked to a drep provided its drep_id
+    static async getDrepQuestions(id: string): Promise<number | undefined> {
+        try {
+            const { data, error } = await
+                supabase
+                    .from("questions")
+                    .select("*")
+                    .eq("drep_id", id);
+            if (error)
+                throw error;
+            if (!data)
+                return undefined;
+            return data.length;
+        } catch (err: any) {
+            return err;
+        }
+    }
     static async getQuestionByTheme(theme: string): Promise<Question[] | undefined> {
         try {
             const { data, error } = await supabase
                 .from('questions')
-                .select('theme, question_title, question_description, user_id,drep_id')
+                .select('*')
                 .eq('theme', theme);
 
             if (error)

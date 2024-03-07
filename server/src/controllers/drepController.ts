@@ -1,5 +1,8 @@
 import type { Request, Response } from "express";
 import supabase from "../supabase/db";
+import DrepModel from "../models/Drep";
+import { QuestionModel } from "../models/Question";
+import { AnswerModel } from "../models/Answer";
 
 interface DrepRequestBody {
     email: string;
@@ -78,4 +81,31 @@ const createDrep = async (
     }
 };
 
-export { createDrep };
+//Get a drep profile 
+const getDrepProfile = async (req: Request, res: Response) => {
+    try {
+        const { drep_id } = req.body;
+        if (!drep_id)
+            throw { status: 400, message: "Request body not correct" };
+        const drep = await DrepModel.getDrep(drep_id);
+        if (!drep)
+            throw { status: 400, message: "Drep does not exist" };
+        const drepQuestions = await QuestionModel.getDrepQuestions(drep_id);
+        if (!drepQuestions)
+            throw { status: 400, message: "Could not fetch questions" };
+        const drepAnswers = await AnswerModel.getDrepAnswers(drep_id);
+        if (!drepAnswers)
+            throw { status: 400, message: "Could not fetch answers" };
+        const resBody = {
+            name: drep.name,
+            email: drep.email,
+            questionsAsked: drepQuestions,
+            questionsAnswers: drepAnswers
+        }; // response Body 
+        res.status(200).json(resBody);
+    } catch (err: any) {
+        res.status(err.status).json({ message: err.message });
+    }
+}
+
+export { createDrep, getDrepProfile };
