@@ -12,7 +12,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ }: ProfileCardProps): React.R
         >
             <div className="my-4 mx-[18px] flex justify-between items-center">
                 <Image
-                    src={"/assets/profiles/card-img.png"}
+                    src={"/assets/home/card-img.png"}
                     width={1000}
                     height={1000}
                     className="w-[54px] aspect-square object-cover"

@@ -1,4 +1,4 @@
-import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from './profiles';
+import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from './home';
 
 
 export {

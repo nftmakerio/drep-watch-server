@@ -34,7 +34,7 @@ const Home: React.FC = (): React.ReactNode => {
                 <div className="p-2 bg-primary-light text-primary flex gap-2 items-center rounded-[10px]">
                     <div className="">
                         <Image 
-                            src={"/assets/profiles/top.png"}
+                            src={"/assets/home/top.png"}
                             width={1000}
                             height={1000}
                             className="h-7 w-auto object-cover rounded"
