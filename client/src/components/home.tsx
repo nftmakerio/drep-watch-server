@@ -4,8 +4,10 @@ import { BsChatQuoteFill } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
+import QueAnsCard from "./cards/que-ans";
+import ProfileCard from "./cards/profile";
 
-const ProfileList: React.FC = (): React.ReactNode => {
+const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
 
 
@@ -90,52 +92,31 @@ const ProfileList: React.FC = (): React.ReactNode => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {
-                            Array(6).fill(0).map((_, i) => (
-                                <div 
-                                    className="border-brd-clr border rounded-xl flex flex-col" 
-                                    key={i}
-                                >
-                                    <div className="my-4 mx-[18px] flex justify-between items-center">
-                                        <Image 
-                                            src={"/assets/profiles/card-img.png"}
-                                            width={1000}
-                                            height={1000}
-                                            className="w-[54px] aspect-square object-cover"
-                                            alt={`card-img-${i}`}
-                                        />
+                    {
+                        (active === FILTER_TYPES.LATEST_ANSWERS || active === FILTER_TYPES.LATEST_QUESTIONS) &&
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {
+                                    Array(4).fill(0).map((_, i) => (
+                                        <QueAnsCard key={i} />
+                                    ))
+                                }
+                            </div>
+                    }
 
-                                        <div className="bg-tertiary-light text-tertiary py-3 px-4 rounded-[10px] font-ibm-mono font-medium text-sm tracking-wide">
-                                            uqwdbd8271gd98n13241
-                                        </div>
-                                    </div>
-                                    <div className="bg-[#F5F5F5] border-y border-brd-clr text-secondary p-3 md:p-5 font-semibold font-inter tracking-wide text-center text-sm md:text-base">
-                                        Drep of NMKR
-                                    </div>
-                                    <button className="my-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center gap-2.5 bg-primary-light text-primary rounded-[10px] border border-[#E6E6E6] ">
-                                        <BsChatQuoteFill className="text-lg md:text-xl" />
-                                        <div className="font-inter font-semibold text-xs md:text-sm tracking-wide ">
-                                            Ask question
-                                        </div>
-                                    </button>
-
-                                    <div className="mb-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center divide-x-2 divide-[#0000002E] font-inter font-medium text-xs md:text-sm text-secondary tracking-wide">
-                                        <button className="w-full flex-1 flex justify-center items-center hover:text-primary transition-all duration-500 ">
-                                            View profile
-                                        </button>
-                                        <button className="w-full flex-1 flex justify-center items-center hover:text-primary transition-all duration-500">
-                                            Delegate
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    {
+                        active === FILTER_TYPES.EXPLORE_DREPS && 
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                {
+                                    Array(6).fill(0).map((_, i) => (
+                                        <ProfileCard key={i} />
+                                    ))
+                                }
+                            </div>
+                    }
                 </div>
             </div>
         </section>
     );
 };
 
-export default ProfileList;
+export default Home;

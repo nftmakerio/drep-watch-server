@@ -1,11 +1,10 @@
 import Head from "next/head";
+import Home from "~/components/home";
 
-import Hero from "~/components/hero";
-import Navbar from "~/components/navbar";
 import Layout from "~/layout";
 import { getStaticProps } from "~/utils";
 
-export default function Home() {
+export default function Index() {
     return (
         <>
             <Head>
@@ -15,8 +14,7 @@ export default function Home() {
             </Head>
 
             <Layout>
-                <Navbar />
-                <Hero />
+                <Home />
             </Layout>
         </>
     );
