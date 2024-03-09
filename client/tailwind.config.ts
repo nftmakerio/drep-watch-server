@@ -11,8 +11,12 @@ export default {
             },
             colors: {
                 primary: "#FF4700",
+                "primary-light": "#FFDACC",
                 secondary: "#3F3F3F",
                 tertiary: "#A6A6A6",
+            },
+            boxShadow: {
+                'sm': '0px 4px 5px 0px rgba(0, 0, 0, 0.25)',
             },
         },
     },

@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import Hero from "~/components/hero";
+import Navbar from "~/components/navbar";
 import Layout from "~/layout";
 import { getStaticProps } from "~/utils";
 
@@ -14,6 +15,7 @@ export default function Home() {
             </Head>
 
             <Layout>
+                <Navbar />
                 <Hero />
             </Layout>
         </>

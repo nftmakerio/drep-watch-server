@@ -16,9 +16,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <main
             className={`relative min-h-screen w-full bg-[#f5f5f5] ${inter_font.variable} ${mono_font.variable} grid-lines`}
         >
-            <div className="mx-auto flex h-full w-[90%] flex-col items-center justify-center md:w-[87.5%] ">
-                {children}
-            </div>
+            {/* mx-auto flex h-full w-[90%] flex-col items-center justify-center md:w-[87.5%] */}
+            {children}
         </main>
     );
 };
