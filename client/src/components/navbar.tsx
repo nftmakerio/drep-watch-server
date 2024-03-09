@@ -3,7 +3,7 @@ import { IoWalletSharp } from "react-icons/io5";
 
 const Navbar: React.FC = (): React.ReactNode => {
     return (
-        <div className="fixed top-7 left-0 w-screen flex justify-center items-center ">
+        <div className="fixed top-7 left-0 w-screen flex justify-center items-center z-[10] ">
             <header className="p-2 pl-6 bg-[#303030] shadow-sm flex justify-between items-center rounded-[14px] w-auto md:min-w-[500px] gap-8">
                 <div className="flex gap-2.5 items-center">
                     <Image

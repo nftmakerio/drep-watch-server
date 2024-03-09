@@ -1,4 +1,5 @@
 import { Inter, IBM_Plex_Mono } from "next/font/google";
+import Navbar from "~/components/navbar";
 
 const inter_font = Inter({
     subsets: ["latin"],
@@ -17,6 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             className={`relative min-h-screen w-full bg-[#f5f5f5] ${inter_font.variable} ${mono_font.variable} grid-lines`}
         >
             {/* mx-auto flex h-full w-[90%] flex-col items-center justify-center md:w-[87.5%] */}
+            <Navbar />
             {children}
         </main>
     );

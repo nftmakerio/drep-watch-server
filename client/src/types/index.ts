@@ -1,14 +1,1 @@
-export type SectionProps = {
-    children: React.ReactNode,
-    title: string,
-    id?: NavItemType["name"],
-}
-
-export type HeadingProps = {
-    title: string,
-}
-
-export type NavItemType = {
-    url: string | null,
-    name: string,
-}
+export type DeviceType = 'mobile' | 'tablet' | 'desktop' | 'monitor';

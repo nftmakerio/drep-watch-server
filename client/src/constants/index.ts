@@ -1,5 +1,9 @@
-import { NavItems } from "./navigation";
+import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from './profiles';
+
 
 export {
-    NavItems,
+    FILTERS,
+    FILTER_TYPES,
+    SMALL_WIDTHS, 
+    WIDTHS,
 }
