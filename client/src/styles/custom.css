@@ -1,6 +1,0 @@
-.grid-lines {
-    background-size: 63px 63px;
-    background-image:
-        linear-gradient(to right, #EDEDED 1px, transparent 1px),
-        linear-gradient(to bottom, #EDEDED 1px, transparent 1px);
-}

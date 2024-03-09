@@ -4,7 +4,6 @@
 
 @import url('lenis-scroll.css');
 @import url('custom-scrollbar.css');
-@import url('custom.css');
 
 * {
     margin: 0;
@@ -15,5 +14,19 @@
 @layer utilities {
     .text-shadow {
         text-shadow: 0px 1px #00000040;
+    }
+
+    .grid-lines {
+        background-size: 63px 63px;
+        background-image:
+            linear-gradient(to right, #EDEDED 1px, transparent 1px),
+            linear-gradient(to bottom, #EDEDED 1px, transparent 1px);
+    }
+
+    .stroke-text {
+        color: black;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1.5px;
+        -webkit-text-stroke-color: black;
     }
 }

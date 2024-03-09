@@ -50,7 +50,7 @@ const Home: React.FC = (): React.ReactNode => {
                     <span>
                         Governance with
                     </span>
-                    <span>
+                    <span className="stroke-text">
                         Transperancy
                     </span>
                 </div>
