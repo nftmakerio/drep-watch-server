@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from "react";
 import User from "./user";
 
 interface QuestionsProps {
@@ -16,7 +17,7 @@ const Questions: React.FC<QuestionsProps> = ({ question }: QuestionsProps): Reac
                     <button className="flex h-10 w-10 items-center justify-center rounded-lg bg-tertiary-light text-tertiary">
                         <LeftArrow />
                     </button>
-                    <h1 className="text-base md:text-xl font-semibold font-inter">Preview</h1>
+                    <h1 className="text-base md:text-xl font-semibold font-inter">{question.theme ? "Preview" : "Describe your question"}</h1>
                 </div>
                 
                 <div className="flex md:hidden flex-1 items-center justify-center pt-8 lg:pb-0">
@@ -32,22 +33,36 @@ const Questions: React.FC<QuestionsProps> = ({ question }: QuestionsProps): Reac
                 </div>
 
                 <div className="mt-12 flex flex-col gap-6 px-6 md:px-12">
-                    <TitleAndInput title="Theme" />
-                    <TitleAndInput title="Question Title" />
+                    <TitleAndInput value={question.theme ?? null} title="Theme" />
+                    <TitleAndInput value={question.questionTitle ?? null} title="Question Title" />
                     <TitleAndInput
                         textArea
+                        value={question.questionDescription ??  null}
                         title="Question Description"
                         inputPlaceholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, amet? Tempore soluta ipsam veniam quidem, quasi odit minus maxime porro, itaque nesciunt nam explicabo esse sunt, accusantium assumenda? Dicta, architecto."
                     />
                 </div>
-                <div className="mt-3 md:mt-8 flex justify-between border-brd-clr pl-6 md:pl-12 pr-5 pt-6 lg:border-t font-inter tracking-wide font-medium">
-                    <button className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm">
-                        Back
-                    </button>
-                    <button className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white">
-                        Submit &nbsp; &#10003;
-                    </button>
-                </div>
+                {
+                    question.theme ? (
+                        <div className="mt-3 md:mt-8 flex justify-between border-brd-clr pl-6 md:pl-12 pr-5 pt-6 lg:border-t font-inter tracking-wide font-medium">
+                            <button className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm">
+                                Back
+                            </button>
+                            <button className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white">
+                                Submit &nbsp; &#10003;
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="mt-3 md:mt-8 flex justify-between border-brd-clr pl-6 md:pl-12 pr-5 pt-6 lg:border-t font-inter tracking-wide font-medium">
+                            <button className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm">
+                                Cancel
+                            </button>
+                            <button className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white">
+                                Next &nbsp; &#10003;
+                            </button>
+                        </div>
+                    )
+                }
             </div>
 
             <div className="hidden md:flex flex-1 items-center justify-center pb-8 lg:pb-0">
@@ -85,30 +100,45 @@ function LeftArrow() {
     );
 }
 
+
+interface InputProps {
+    title?: string;
+    inputPlaceholder?: string;
+    textArea?: boolean;
+    value: string | null;
+}
+
 function TitleAndInput({
     title,
     inputPlaceholder,
     textArea,
-}: {
-    title?: string;
-    inputPlaceholder?: string;
-    textArea?: boolean;
-}) {
+    value
+}: InputProps) {
+    const [inpVal, setInpVal] = useState<string>(value ?? "");
+    
+    const handleOnChange = (e : ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setInpVal(e.target.value)
+    }
+
     return (
         <div className="flex flex-col gap-1 font-inter tracking-wide">
             <h2 className="font-semibold text-secondary ">{title ?? "Lorem"}</h2>
 
-            <div className="relative mt-2">
+            <div className="relative mt-2 font-medium">
                 {textArea ? (
                     <textarea
-                        className="h-[182px] w-full resize-none overflow-hidden rounded-lg bg-tertiary-light text-secondary py-3 pl-5 pr-8 text-sm outline-none"
+                        className="h-[182px] w-full resize-none overflow-hidden rounded-lg bg-tertiary-light text-secondary py-3 pl-5 pr-8 text-sm outline-none font-ibm-mono"
                         placeholder={inputPlaceholder ?? "Lorem ipsum dolor sit amet"}
+                        value={inpVal ?? ""}
+                        onChange={handleOnChange}
                     />
                 ) : (
                     <input
                         type="text"
-                        className="w-full rounded-lg bg-tertiary-light text-secondary px-5 py-3 pr-10 text-sm outline-none"
+                        className="w-full rounded-lg bg-tertiary-light text-secondary px-5 py-3 pr-10 text-sm outline-none font-ibm-mono"
                         placeholder={inputPlaceholder ?? "Lorem ipsum dolor sit amet"}
+                        value={inpVal ?? ""}
+                        onChange={handleOnChange}
                     />
                 )}
 

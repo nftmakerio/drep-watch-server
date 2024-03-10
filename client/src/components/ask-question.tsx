@@ -11,6 +11,13 @@ const AskQuestion: React.FC = (): React.ReactNode => {
                     theme: "lorem ipsum dolor sit amet afdsf afasejk fwejk fwejkf ",
                 }}
             />
+            {/* <Questions 
+                question={{
+                    theme: "",
+                    questionDescription: "",
+                    questionTitle: ""
+                }}
+            /> */}
 
         </section>
     );
