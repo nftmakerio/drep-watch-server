@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Profile from "~/components/profile";
 
+import Profile from "~/components/profile";
 import Layout from "~/layout";
 
 export default function Index() {

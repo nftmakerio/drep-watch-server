@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Home from "~/components/home";
 
+import Home from "~/components/home";
 import Layout from "~/layout";
 import { getStaticProps } from "~/utils";
 

@@ -1,11 +1,12 @@
-import Image from "next/image";
 import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
-import { P_FILTERS, P_FILTER_TYPES, P_SMALL_WIDTHS, P_WIDTHS } from "~/constants";
-import useDeviceType from "~/hooks/use-device-type";
+import { BsChatQuoteFill } from "react-icons/bs";
+import Image from "next/image";
+
 import QueAnsCard from "./cards/que-ans";
 import Vote from "./cards/vote";
-import { BsChatQuoteFill } from "react-icons/bs";
+
+import { P_FILTER_TYPES, P_FILTERS, P_SMALL_WIDTHS, P_WIDTHS } from "~/constants";
+import useDeviceType from "~/hooks/use-device-type";
 
 const Profile: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(P_FILTER_TYPES.QUESTIONS_ANSWERS);
@@ -89,7 +90,7 @@ const Profile: React.FC = (): React.ReactNode => {
 
                                 <div 
                                     className="absolute bg-white mix-blend-overlay shadow-md top-0 left-0 bottom-0 h-full rounded-md transition-all duration-200 z-0" 
-                                    style={{width: getWidth(), left: getLeftOffset()}}
+                                    style={{left: getLeftOffset(), width: getWidth()}}
                                 />
                             </div>
                         </div>

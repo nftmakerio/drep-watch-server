@@ -1,6 +1,6 @@
 import Head from "next/head";
-import AskQuestion from "~/components/ask-question";
 
+import AskQuestion from "~/components/ask-question";
 import Layout from "~/layout";
 import { getStaticProps } from "~/utils";
 

@@ -1,17 +1,17 @@
-import { Inter, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono,Inter } from "next/font/google";
 import localFont from 'next/font/local'
 
 import Navbar from "~/components/navbar";
 
 const inter_font = Inter({
     subsets: ["latin"],
-    weight: ["400", "500", "600", "700", "800"],
     variable: "--font-inter",
+    weight: ["400", "500", "600", "700", "800"],
 });
 const mono_font = IBM_Plex_Mono({
     subsets: ["latin"],
-    weight: ["400", "500", "600"],
     variable: "--font-ibm-mono",
+    weight: ["400", "500", "600"],
 });
 
 const neue_regrade_font = localFont({ 

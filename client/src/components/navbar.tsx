@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { IoWalletSharp } from "react-icons/io5";
+import Image from "next/image";
 
 const Navbar: React.FC = (): React.ReactNode => {
     return (

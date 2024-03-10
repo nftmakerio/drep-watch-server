@@ -13,13 +13,13 @@ const P_FILTER_TYPES = {
 };
 
 const P_FILTERS = [
-    { type: P_FILTER_TYPES.QUESTIONS_ANSWERS, label: "Questions & answers" },
-    { type: P_FILTER_TYPES.VOTES, label: "Votes" },
+    { label: "Questions & answers", type: P_FILTER_TYPES.QUESTIONS_ANSWERS },
+    { label: "Votes", type: P_FILTER_TYPES.VOTES },
 ];
 
 export {
-    P_FILTERS,
     P_FILTER_TYPES,
+    P_FILTERS,
     P_SMALL_WIDTHS, 
     P_WIDTHS,
 }

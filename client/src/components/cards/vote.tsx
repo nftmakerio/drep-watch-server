@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 
 interface VoteProps {
-    
+    test?: string;
 };
 
 const Vote: React.FC<VoteProps> = ({  }: VoteProps): React.ReactNode => {

@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { BsChatQuoteFill } from "react-icons/bs";
+import Image from "next/image";
 
 interface ProfileCardProps {
-
+    test?: string;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ }: ProfileCardProps): React.ReactNode => {

@@ -10,20 +10,20 @@ const SMALL_WIDTHS: Record<number, string> = {
 }
 
 const FILTER_TYPES = {
+    EXPLORE_DREPS: 3,
     LATEST_ANSWERS: 1,
     LATEST_QUESTIONS: 2,
-    EXPLORE_DREPS: 3,
 };
 
 const FILTERS = [
-    { type: FILTER_TYPES.LATEST_ANSWERS, label: "Latest answers" },
-    { type: FILTER_TYPES.LATEST_QUESTIONS, label: "Latest questions" },
-    { type: FILTER_TYPES.EXPLORE_DREPS, label: "Explore Dreps" },
+    { label: "Latest answers", type: FILTER_TYPES.LATEST_ANSWERS },
+    { label: "Latest questions", type: FILTER_TYPES.LATEST_QUESTIONS },
+    { label: "Explore Dreps", type: FILTER_TYPES.EXPLORE_DREPS },
 ];
 
 export {
-    FILTERS,
     FILTER_TYPES,
+    FILTERS,
     SMALL_WIDTHS, 
     WIDTHS,
 }

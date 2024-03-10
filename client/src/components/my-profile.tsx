@@ -1,7 +1,7 @@
-import Image from "next/image";
-import QueAnsCard from "./cards/que-ans";
-import { BsChatQuoteFill } from "react-icons/bs";
 import { GoArrowRight } from "react-icons/go";
+import Image from "next/image";
+
+import QueAnsCard from "./cards/que-ans";
 
 const MyProfile: React.FC = (): React.ReactNode => {
     return (

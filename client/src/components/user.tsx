@@ -1,6 +1,7 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { UserType } from "~/types";
+import Image from "next/image";
+
+import { type UserType } from "~/types";
 
 interface UserProps {
     user: UserType
@@ -50,19 +51,19 @@ const User: React.FC<UserProps> = ({ user }: UserProps): React.ReactNode => {
                 <div className="relative flex-1">
                     <svg className="h-full w-full" viewBox="0 0 100 100">
                         <circle
-                            style={{ strokeWidth: '6', stroke: '#FFDACC', fill: 'transparent' }}
+                            style={{ fill: 'transparent', stroke: '#FFDACC', strokeWidth: '6' }}
                             cx="50"
                             cy="50"
                             r="40"
                         ></circle>
                         <circle
                             style={{
-                                strokeWidth: '6',
-                                strokeLinecap: 'round',
-                                stroke: '#FF4700',
                                 fill: 'transparent',
+                                stroke: '#FF4700',
                                 strokeDasharray: '250',
                                 strokeDashoffset: `calc(250 - (250 * ${percentage}) / 100)`,
+                                strokeLinecap: 'round',
+                                strokeWidth: '6',
                             }}
                             cx="50"
                             cy="50"

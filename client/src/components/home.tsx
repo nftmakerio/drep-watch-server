@@ -1,10 +1,12 @@
-import Image from "next/image";
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from "~/constants";
-import useDeviceType from "~/hooks/use-device-type";
-import QueAnsCard from "./cards/que-ans";
+import Image from "next/image";
+
 import ProfileCard from "./cards/profile";
+import QueAnsCard from "./cards/que-ans";
+
+import { FILTER_TYPES, FILTERS, SMALL_WIDTHS, WIDTHS } from "~/constants";
+import useDeviceType from "~/hooks/use-device-type";
 
 const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
@@ -84,7 +86,7 @@ const Home: React.FC = (): React.ReactNode => {
 
                                 <div 
                                     className="absolute bg-white mix-blend-overlay shadow-md top-0 left-0 bottom-0 h-full rounded-md transition-all duration-200 z-0" 
-                                    style={{width: getWidth(), left: getLeftOffset()}}
+                                    style={{left: getLeftOffset(), width: getWidth()}}
                                 />
                             </div>
                         </div>
