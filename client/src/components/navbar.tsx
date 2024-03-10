@@ -10,7 +10,7 @@ const Navbar: React.FC = (): React.ReactNode => {
                         src={"/assets/logo.svg"}
                         width={1000}
                         height={1000}
-                        className="w-[50px] h-auto object-cover"
+                        className="w-[20px] h-auto object-cover"
                         alt="logo"
                     />
 
