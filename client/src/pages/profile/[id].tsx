@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Home from "~/components/home";
+import Profile from "~/components/profile";
 
 import Layout from "~/layout";
-import { getStaticProps } from "~/utils";
 
 export default function Index() {
     return (
@@ -14,10 +13,8 @@ export default function Index() {
             </Head>
 
             <Layout>
-                <Home />
+                <Profile />
             </Layout>
         </>
     );
 }
-
-export { getStaticProps };

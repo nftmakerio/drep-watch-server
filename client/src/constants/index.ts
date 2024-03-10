@@ -1,9 +1,13 @@
 import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from './home';
-
+import { P_FILTERS, P_FILTER_TYPES, P_SMALL_WIDTHS, P_WIDTHS } from './profile';
 
 export {
     FILTERS,
     FILTER_TYPES,
     SMALL_WIDTHS, 
     WIDTHS,
+    P_FILTERS,
+    P_FILTER_TYPES,
+    P_SMALL_WIDTHS, 
+    P_WIDTHS,
 }

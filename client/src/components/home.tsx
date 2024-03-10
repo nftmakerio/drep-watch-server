@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useState } from "react";
-import { BsChatQuoteFill } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { FILTERS, FILTER_TYPES, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
@@ -9,7 +8,6 @@ import ProfileCard from "./cards/profile";
 
 const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
-
 
     const deviceType = useDeviceType();
 
