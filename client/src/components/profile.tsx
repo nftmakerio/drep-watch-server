@@ -7,6 +7,7 @@ import Vote from "./cards/vote";
 
 import { P_FILTER_TYPES, P_FILTERS, P_SMALL_WIDTHS, P_WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
+import { motion } from "framer-motion";
 
 const Profile: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(P_FILTER_TYPES.QUESTIONS_ANSWERS);
@@ -30,7 +31,10 @@ const Profile: React.FC = (): React.ReactNode => {
 
     return (
         <section className="pt-[150px] md:pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
-            <div className="relative flex justify-center items-center">
+            <motion.div 
+                className="relative flex justify-center items-center"
+                whileHover={{scale: 1.025}}
+            >
                 <div className="absolute top-0 -translate-y-1/2 bg-primary-light text-primary font-ibm-mono text-xs md:text-[13px] px-5 py-3 rounded-[10px]">
                     730/770 Question answered
                 </div>
@@ -53,22 +57,30 @@ const Profile: React.FC = (): React.ReactNode => {
                             Drep of NMKR
                         </div>
                         <div className="flex gap-2.5 items-center mt-5">
-                            <button className="px-4 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%] flex gap-2.5 items-center text-white rounded-lg">
+                            <motion.button 
+                                className="px-4 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%] flex gap-2.5 items-center text-white rounded-lg"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 <BsChatQuoteFill className="text-[24px]" />
                                 <div className="text-xs md:text-sm font-inter font-medium text-shadow ">
                                     Ask question
                                 </div>
-                            </button>
+                            </motion.button>
 
-                            <button className="px-4 py-2.5 bg-[#EAEAEA] flex gap-2.5 items-center text-secondary rounded-lg">
+                            <motion.button 
+                                className="px-4 py-2.5 bg-[#EAEAEA] flex gap-2.5 items-center text-secondary rounded-lg"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 <div className="text-xs md:text-sm font-inter font-medium ">
                                     Delagate
                                 </div>
-                            </button>
+                            </motion.button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
             <div className="w-full  bg-white px-[5%] py-7 pb-12 flex justify-center items-center shadow-[-5px_0px_13px_0px_#0000001A]">
                 <div className="max-w-[1600px] flex flex-col gap-6 md:gap-10 w-full">
@@ -81,7 +93,7 @@ const Profile: React.FC = (): React.ReactNode => {
                                 {P_FILTERS.map((filter) => (
                                     <div
                                         key={filter.type}
-                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} transition-all duration-200 cursor-pointer`}
+                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} transition-all duration-200 cursor-pointer hover:text-secondary `}
                                         onClick={() => setActive(filter.type)}
                                     >
                                         {filter.label}

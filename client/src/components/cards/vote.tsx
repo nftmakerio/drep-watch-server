@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 
@@ -21,15 +22,17 @@ const Vote: React.FC<VoteProps> = ({  }: VoteProps): React.ReactNode => {
                 </div>
             </div>
             <div className="bg-[#F5F5F5] border-t border-brd-clr text-secondary p-3 md:p-5 flex justify-center items-center">
-                <button 
+                <motion.button 
                     className={`py-2 px-3 flex justify-center items-center gap-2.5  rounded-[10px] border border-[#E6E6E6] ${toggle ? "bg-primary-light text-primary" : "bg-[#EAEAEA] text-[#8C8C8C]"} transition-all duration-200`}
                     onClick={() => setToggle(p => !p)}
+                    whileHover={{scaleX: 1.025}}
+                    whileTap={{scaleX: 0.995}}
                 >
                     <FaThumbsUp  className={`text-lg md:text-xl ${toggle ? "rotate-0" : "-rotate-180"} transition-all duration-200`} />
                     <div className="font-ibm-mono font-semibold text-xs md:text-sm tracking-wide ">
                         {toggle ? "In favour" : "Adjusted Against"}
                     </div>
-                </button>
+                </motion.button>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import { BsChatQuoteFill } from "react-icons/bs";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface ProfileCardProps {
     test?: string;
@@ -7,8 +8,9 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ }: ProfileCardProps): React.ReactNode => {
     return (
-        <div
+        <motion.div
             className="border-brd-clr border rounded-xl flex flex-col"
+            whileHover={{y: -6}}
         >
             <div className="my-4 mx-[18px] flex justify-between items-center">
                 <Image
@@ -26,22 +28,35 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ }: ProfileCardProps): React.R
             <div className="bg-[#F5F5F5] border-y border-brd-clr text-secondary p-3 md:p-5 font-semibold font-inter tracking-wide text-center text-sm md:text-base">
                 Drep of NMKR
             </div>
-            <button className="my-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center gap-2.5 bg-primary-light text-primary rounded-[10px] border border-[#E6E6E6] ">
+            <motion.button 
+                className="my-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center gap-2.5 bg-primary-light text-primary rounded-[10px] border border-[#E6E6E6] "
+                whileHover={{scaleX: 1.025}}
+                whileTap={{scaleX: 0.995}}
+            >
                 <BsChatQuoteFill className="text-lg md:text-xl" />
                 <div className="font-inter font-semibold text-xs md:text-sm tracking-wide ">
                     Ask question
                 </div>
-            </button>
+            </motion.button>
 
-            <div className="mb-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center divide-x-2 divide-[#0000002E] font-inter font-medium text-xs md:text-sm text-secondary tracking-wide">
-                <button className="w-full flex-1 flex justify-center items-center hover:text-primary transition-all duration-500 ">
+            <div className="mb-3 py-3 md:py-4 mx-[18px]  flex justify-center items-center font-inter font-medium text-xs md:text-sm text-secondary tracking-wide">
+                <motion.button 
+                    className="w-full flex-1 flex justify-center items-center hover:text-primary "
+                    whileHover={{scaleX: 1.05}}
+                    whileTap={{scaleX: 0.95}}
+                >
                     View profile
-                </button>
-                <button className="w-full flex-1 flex justify-center items-center hover:text-primary transition-all duration-500">
+                </motion.button>
+                <div className="h-full w-[1px] bg-[#0000002E]"></div>
+                <motion.button 
+                    className="w-full flex-1 flex justify-center items-center hover:text-primary "
+                    whileHover={{scaleX: 1.05}}
+                    whileTap={{scaleX: 0.95}}
+                >
                     Delegate
-                </button>
+                </motion.button>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

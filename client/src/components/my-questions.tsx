@@ -2,12 +2,17 @@ import { GoArrowRight } from "react-icons/go";
 import Image from "next/image";
 
 import QueAnsCard from "./cards/que-ans";
+import { motion } from "framer-motion";
 
-const MyProfile: React.FC = (): React.ReactNode => {
+const MyQuestions: React.FC = (): React.ReactNode => {
     return (
         <section className="pt-[120px] md:pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
             <div className="relative flex justify-center items-center">
-                <div className="w-[90%] md:w-auto flex gap-6 items-center bg-white rounded-xl border border-primary-light shadow-color flex-col md:flex-row ">
+                <motion.div 
+                    className="w-[90%] md:w-auto flex gap-6 items-center bg-white rounded-xl border border-primary-light shadow-color flex-col md:flex-row "
+                    whileHover={{scale: 1.025}}
+                    
+                >
                     <div className="flex flex-col md:flex-row divide-y md:divide-x divide-brd-clr ">
                         <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-center p-8 pb-6 md:pr-6 ">
                             <Image 
@@ -38,16 +43,19 @@ const MyProfile: React.FC = (): React.ReactNode => {
                                 uqwdbd8271gd98n13241
                             </div>
                             
-                            <button className="flex gap-2 items-center font-inter text-sm tracking-wide text-primary mt-2 font-medium">
+                            <motion.button 
+                                className="flex gap-1 items-center font-inter text-sm tracking-wide text-primary mt-2 font-medium group"
+                                whileTap={{scale: 0.995}}
+                            >
                                 <div>
                                     View profile
                                 </div>
 
-                                <GoArrowRight className="text-lg md:text-xl" />
-                            </button>
+                                <GoArrowRight className="text-lg md:text-xl group-hover:translate-x-1 transition-all duration-200 group-active:translate-x-0.5" />
+                            </motion.button>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             <div className="w-full  bg-white px-[5%] py-7 pb-12 flex justify-center items-center shadow-[-5px_0px_13px_0px_#0000001A]">
@@ -71,4 +79,4 @@ const MyProfile: React.FC = (): React.ReactNode => {
     );
 };
 
-export default MyProfile;
+export default MyQuestions;

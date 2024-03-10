@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import MyProfile from "~/components/my-profile";
+import MyQuestions from "~/components/my-questions";
 import Layout from "~/layout";
 
 export default function Index() {
@@ -13,7 +13,7 @@ export default function Index() {
             </Head>
 
             <Layout>
-                <MyProfile />
+                <MyQuestions />
             </Layout>
         </>
     );

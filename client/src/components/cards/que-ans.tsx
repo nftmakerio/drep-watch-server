@@ -1,5 +1,6 @@
 import { MdShare } from "react-icons/md";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface QueAnsCardProps {
     test?: string;
@@ -7,8 +8,9 @@ interface QueAnsCardProps {
 
 const QueAnsCard: React.FC<QueAnsCardProps> = ({ }: QueAnsCardProps): React.ReactNode => {
     return (
-        <div
-            className="border-brd-clr border rounded-xl flex flex-col overflow-hidden"
+        <motion.div
+            className="border-brd-clr border rounded-xl flex flex-col overflow-hidden cursor-pointer"
+            whileHover={{y: -6}}
         >
             <div className="py-4 px-[18px] border-b border-brd-clr flex justify-start items-center flex-col gap-7">
                 <div className="flex justify-between items-center font-ibm-mono w-full">
@@ -84,12 +86,16 @@ const QueAnsCard: React.FC<QueAnsCardProps> = ({ }: QueAnsCardProps): React.Reac
                         </div>
                     </div>
 
-                    <div className="cursor-pointer">
+                    <motion.div 
+                        className="cursor-pointer"
+                        whileHover={{scale: 1.05}}
+                        whileTap={{scale: 0.95}}
+                    >
                         <MdShare className="text-lg md:text-xl text-[#8c8c8c]" />
-                    </div>
+                    </motion.div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

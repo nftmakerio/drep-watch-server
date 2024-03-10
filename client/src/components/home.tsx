@@ -77,7 +77,7 @@ const Home: React.FC = (): React.ReactNode => {
                                 {FILTERS.map((filter) => (
                                     <div
                                         key={filter.type}
-                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} transition-all duration-200 cursor-pointer`}
+                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} transition-all duration-200 cursor-pointer hover:text-secondary `}
                                         onClick={() => setActive(filter.type)}
                                     >
                                         {filter.label}
@@ -94,7 +94,7 @@ const Home: React.FC = (): React.ReactNode => {
 
                     {
                         (active === FILTER_TYPES.LATEST_ANSWERS || active === FILTER_TYPES.LATEST_QUESTIONS) &&
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {
                                     Array(4).fill(0).map((_, i) => (
                                         <QueAnsCard key={i} />
@@ -105,7 +105,7 @@ const Home: React.FC = (): React.ReactNode => {
 
                     {
                         active === FILTER_TYPES.EXPLORE_DREPS && 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {
                                     Array(6).fill(0).map((_, i) => (
                                         <ProfileCard key={i} />

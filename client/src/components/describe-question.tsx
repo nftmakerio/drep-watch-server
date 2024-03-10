@@ -1,6 +1,7 @@
 import { type ChangeEvent, useState } from "react";
 
 import User from "./user";
+import { motion } from "framer-motion";
 
 interface QuestionsProps {
     question : {
@@ -15,9 +16,13 @@ const Questions: React.FC<QuestionsProps> = ({ question }: QuestionsProps): Reac
         <div className="flex w-full max-w-[1318px] flex-col gap-4 bg-[#FAFAFA] shadow rounded-xl lg:flex-row lg:pr-12">
             <div className="flex-[2_2_0%] py-12 lg:border-r lg:border-brd-clr">
                 <div className="flex items-center gap-4 pl-6 md:pl-12">
-                    <button className="flex h-10 w-10 items-center justify-center rounded-lg bg-tertiary-light text-tertiary">
+                    <motion.button 
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-tertiary-light text-tertiary"
+                        whileHover={{scale: 1.05}}
+                        whileTap={{scale: 0.95}}
+                    >
                         <LeftArrow />
-                    </button>
+                    </motion.button>
                     <h1 className="text-base md:text-xl font-semibold font-inter">{question.theme ? "Preview" : "Describe your question"}</h1>
                 </div>
                 
@@ -46,21 +51,37 @@ const Questions: React.FC<QuestionsProps> = ({ question }: QuestionsProps): Reac
                 {
                     question.theme ? (
                         <div className="mt-3 md:mt-8 flex justify-between border-brd-clr pl-6 md:pl-12 pr-5 pt-6 lg:border-t font-inter tracking-wide font-medium">
-                            <button className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm">
+                            <motion.button 
+                                className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 Back
-                            </button>
-                            <button className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white">
+                            </motion.button>
+                            <motion.button 
+                                className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 Submit &nbsp; &#10003;
-                            </button>
+                            </motion.button>
                         </div>
                     ) : (
                         <div className="mt-3 md:mt-8 flex justify-between border-brd-clr pl-6 md:pl-12 pr-5 pt-6 lg:border-t font-inter tracking-wide font-medium">
-                            <button className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm">
+                            <motion.button 
+                                className="flex h-11 items-center justify-center rounded-lg bg-tertiary-light text-secondary px-8 text-sm"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 Cancel
-                            </button>
-                            <button className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white">
+                            </motion.button>
+                            <motion.button 
+                                className="flex h-11 items-center justify-center rounded-lg bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-shadow px-8 text-sm text-white"
+                                whileHover={{scaleX: 1.025}}
+                                whileTap={{scaleX: 0.995}}
+                            >
                                 Next &nbsp; &#10003;
-                            </button>
+                            </motion.button>
                         </div>
                     )
                 }
@@ -152,14 +173,14 @@ function TitleAndInput({
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M14.7404 1.18391C14.9845 0.939835 15.3802 0.939835 15.6243 1.18391L19.1599 4.71944C19.2771 4.83665 19.3429 4.99562 19.3429 5.16138C19.3429 5.32714 19.2771 5.48611 19.1599 5.60332L6.19623 18.5669C6.07902 18.6842 5.92004 18.75 5.75427 18.75L2.21884 18.7499C1.87368 18.7499 1.59387 18.4701 1.59386 18.1249L1.59375 14.5895C1.59374 14.4237 1.65959 14.2647 1.77681 14.1475L14.7404 1.18391ZM15.1824 2.50974L2.84376 14.8483L2.84384 17.4999L5.49541 17.5L17.834 5.16138L15.1824 2.50974Z"
                         fill="#8C8C8C"
                     />
                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M11.2047 4.71937C11.4488 4.4753 11.8445 4.4753 12.0886 4.71937L15.6241 8.25492C15.8682 8.49899 15.8682 8.89472 15.6241 9.1388C15.3801 9.38288 14.9843 9.38288 14.7402 9.1388L11.2047 5.60326C10.9606 5.35918 10.9606 4.96345 11.2047 4.71937Z"
                         fill="#8C8C8C"
                     />
