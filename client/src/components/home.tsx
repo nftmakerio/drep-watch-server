@@ -44,7 +44,7 @@ const Home: React.FC = (): React.ReactNode => {
                     </div>
                 </div>
 
-                <div className="mt-5 text-[5vw] font-inter flex gap-1 md:gap-5 items-center">
+                <div className="mt-5 text-[5vw] flex gap-1 md:gap-5 items-center font-neue-regrade font-semibold">
                     <span>
                         Governance with
                     </span>

@@ -17,7 +17,7 @@ const MyProfile: React.FC = (): React.ReactNode => {
                                 className="w-[140px] aspect-square object-cover"
                                 alt="img"
                             />
-                            <div className="max-w-[290px] truncate text-[28px] md:text-[36px] text-black ">
+                            <div className="max-w-[290px] truncate text-[28px] md:text-[36px] text-black font-neue-regrade font-medium">
                                 aspinnqenfnqwiaklasdkjf
                             </div>
                         </div>
@@ -34,11 +34,11 @@ const MyProfile: React.FC = (): React.ReactNode => {
                                 alt="img"
                             />
 
-                            <div className="rounded-lg bg-primary-light px-[18px] py-2 font-semibold text-primary font-ibm-mono text-xs md:text-[13px] tracking-wide">
+                            <div className="rounded-lg bg-primary-light px-[18px] py-2  text-primary font-ibm-mono text-xs md:text-[13px] tracking-wide">
                                 uqwdbd8271gd98n13241
                             </div>
                             
-                            <button className="flex gap-2 items-center font-inter text-sm tracking-wide text-primary mt-2">
+                            <button className="flex gap-2 items-center font-inter text-sm tracking-wide text-primary mt-2 font-medium">
                                 <div>
                                     View profile
                                 </div>

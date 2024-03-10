@@ -43,7 +43,8 @@ const User: React.FC<UserProps> = ({ user }: UserProps): React.ReactNode => {
                     {user.walletId}
                 </div>
             </div>
-            <h2 className="text-4xl font-semibold leading-[1] text-center">{user.username}</h2>
+
+            <h2 className="text-4xl font-semibold leading-[1] text-center font-neue-regrade">{user.username}</h2>
 
             <div className="flex h-[100px] w-[280px] border border-brd-clr rounded-2xl bg-[#F5F5F5] px-[18px] py-3.5">
                 <div className="relative flex-1">

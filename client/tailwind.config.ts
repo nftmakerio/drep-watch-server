@@ -8,6 +8,7 @@ export default {
             fontFamily: {
                 "inter": ["var(--font-inter)"],
                 "ibm-mono": ["var(--font-ibm-mono)"],
+                "neue-regrade": ["var(--font-neue-regrade)"],
             },
             colors: {
                 primary: "#FF4700",

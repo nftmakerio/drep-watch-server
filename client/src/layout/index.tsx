@@ -1,4 +1,6 @@
 import { Inter, IBM_Plex_Mono } from "next/font/google";
+import localFont from 'next/font/local'
+
 import Navbar from "~/components/navbar";
 
 const inter_font = Inter({
@@ -12,10 +14,15 @@ const mono_font = IBM_Plex_Mono({
     variable: "--font-ibm-mono",
 });
 
+const neue_regrade_font = localFont({ 
+    src: '../../public/fonts/Neue Regrade Variable.ttf', 
+    variable: "--font-neue-regrade",
+})
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <main
-            className={`relative min-h-screen w-full bg-[#f5f5f5] ${inter_font.variable} ${mono_font.variable} grid-lines`}
+            className={`relative min-h-screen w-full bg-[#f5f5f5] ${inter_font.variable} ${mono_font.variable} ${neue_regrade_font.variable} grid-lines`}
         >
             {/* mx-auto flex h-full w-[90%] flex-col items-center justify-center md:w-[87.5%] */}
             <Navbar />
