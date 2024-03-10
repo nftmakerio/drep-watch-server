@@ -39,9 +39,9 @@ const User: React.FC<UserProps> = ({ user }: UserProps): React.ReactNode => {
                     className="w-[140px] rounded-lg"
                     alt={user.username}
                 />
-                <span className="rounded-lg bg-primary-light px-[18px] py-2 font-semibold text-primary -translate-y-2 font-ibm-mono text-xs md:text-[13px] tracking-wide">
+                <div className="rounded-lg bg-primary-light px-[18px] py-2 font-semibold text-primary -translate-y-2 font-ibm-mono text-xs md:text-[13px] tracking-wide">
                     {user.walletId}
-                </span>
+                </div>
             </div>
             <h2 className="text-4xl font-semibold leading-[1] text-center">{user.username}</h2>
 
