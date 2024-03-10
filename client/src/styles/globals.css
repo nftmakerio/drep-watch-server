@@ -28,5 +28,10 @@
         -webkit-text-fill-color: transparent;
         -webkit-text-stroke-width: 1.5px;
         -webkit-text-stroke-color: black;
+        
+        @media screen and (max-width: 768px) {
+            /* Apply a reduced stroke width for screens up to 640px wide (adjust as needed) */
+            -webkit-text-stroke-width: 0.75px;
+        }
     }
 }

@@ -29,7 +29,7 @@ const Profile: React.FC = (): React.ReactNode => {
     }
 
     return (
-        <section className="pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
+        <section className="pt-[150px] md:pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
             <div className="relative flex justify-center items-center">
                 <div className="absolute top-0 -translate-y-1/2 bg-primary-light text-primary font-ibm-mono text-xs md:text-[13px] px-5 py-3 rounded-[10px]">
                     730/770 Question answered

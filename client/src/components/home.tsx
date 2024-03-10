@@ -29,7 +29,7 @@ const Home: React.FC = (): React.ReactNode => {
     }
 
     return (
-        <section className="pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
+        <section className="pt-[150px] md:pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
             <div className="flex flex-col w-full justify-center items-center">
                 <div className="p-2 bg-primary-light text-primary flex gap-2 items-center rounded-[10px]">
                     <div className="">
@@ -46,7 +46,7 @@ const Home: React.FC = (): React.ReactNode => {
                     </div>
                 </div>
 
-                <div className="mt-5 text-[5vw] flex gap-1 md:gap-5 items-center font-neue-regrade font-semibold">
+                <div className="mt-5 text-[10vw] md:text-[5vw] flex gap-1 md:gap-5 items-center font-neue-regrade font-semibold flex-col md:flex-row leading-[1] md:leading-normal">
                     <span>
                         Governance with
                     </span>
