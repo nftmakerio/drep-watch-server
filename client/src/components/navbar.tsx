@@ -11,6 +11,8 @@ const Navbar: React.FC = (): React.ReactNode => {
             <motion.header 
                 className="p-2 pl-6 bg-[#303030] shadow-sm flex justify-between items-center rounded-[14px] w-auto md:min-w-[500px] gap-8"
                 whileHover={{ width: device!=="mobile" ? "600px" : "auto" }}
+                initial={{ opacity: 0 }}
+                animate={{opacity: 1 }}
             >
                 <div className="flex gap-2.5 items-center">
                     <Image

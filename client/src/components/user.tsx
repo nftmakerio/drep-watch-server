@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { type UserType } from "~/types";
+import { motion } from "framer-motion";
 
 interface UserProps {
     user: UserType
@@ -23,31 +24,64 @@ const User: React.FC<UserProps> = ({ user }: UserProps): React.ReactNode => {
             }, 10);
         };
 
-        setTimeout(animatePercentage, 1000);
+        setTimeout(animatePercentage, 1750);
     }, [user.questionsAnswered, user.totalQuestions]);
 
     return (
 
         <div className="flex flex-col gap-7">
-            <p className="text-center text-sm font-semibold text-tertiary font-ibm-mono ">
+            <motion.p 
+                className="text-center text-sm font-semibold text-tertiary font-ibm-mono "
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{delay: 0.35, duration: 0.5}}
+            >
                 You’re asking question to
-            </p>
+            </motion.p>
             <div className="flex flex-col items-center ">
-                <Image
-                    src={user.img}
-                    width={1000}
-                    height={1000}
-                    className="w-[140px] rounded-lg"
-                    alt={user.username}
-                />
-                <div className="rounded-lg bg-primary-light px-[18px] py-2 font-semibold text-primary -translate-y-2 font-ibm-mono text-xs md:text-[13px] tracking-wide">
+                <motion.div
+                    initial={{ opacity: 0, y: -50 }}
+                    whileInView={{opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{delay: 0.45, duration: 0.5}}
+                >
+                    <Image
+                        src={user.img}
+                        width={1000}
+                        height={1000}
+                        className="w-[140px] rounded-lg"
+                        alt={user.username}
+                    />
+                </motion.div>
+                <motion.div 
+                    className="rounded-lg bg-primary-light px-[18px] py-2 font-semibold text-primary font-ibm-mono text-xs md:text-[13px] tracking-wide"
+                    initial={{ opacity: 0, y: -50 }}
+                    whileInView={{opacity: 1, y: -8 }}
+                    viewport={{ once: true }}
+                    transition={{delay: 0.55, duration: 0.5}}
+                >
                     {user.walletId}
-                </div>
+                </motion.div>
             </div>
 
-            <h2 className="text-4xl font-semibold leading-[1] text-center font-neue-regrade">{user.username}</h2>
+            <motion.h2 
+                className="text-4xl font-semibold leading-[1] text-center font-neue-regrade"
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{opacity: 1, y: -8 }}
+                viewport={{ once: true }}
+                transition={{delay: 0.85, duration: 0.5}}
+            >
+                {user.username}
+            </motion.h2>
 
-            <div className="flex h-[100px] w-[280px] border border-brd-clr rounded-2xl bg-[#F5F5F5] px-[18px] py-3.5">
+            <motion.div 
+                className="flex h-[100px] w-[280px] border border-brd-clr rounded-2xl bg-[#F5F5F5] px-[18px] py-3.5"
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{opacity: 1, y: -8 }}
+                viewport={{ once: true }}
+                transition={{delay: 1.05, duration: 0.5}}
+            >
                 <div className="relative flex-1">
                     <svg className="h-full w-full" viewBox="0 0 100 100">
                         <circle
@@ -86,7 +120,7 @@ const User: React.FC<UserProps> = ({ user }: UserProps): React.ReactNode => {
                         questions answered
                     </span>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

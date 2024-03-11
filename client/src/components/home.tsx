@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
+
 
 import ProfileCard from "./cards/profile";
 import QueAnsCard from "./cards/que-ans";
 
 import { FILTER_TYPES, FILTERS, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
+import { motion } from "framer-motion";
+import useInView from "~/hooks/use-in-view";
 
 const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
 
     const deviceType = useDeviceType();
+    const {initialLoad, ref} = useInView();
 
 
     const getLeftOffset = (): string => {
@@ -31,7 +35,13 @@ const Home: React.FC = (): React.ReactNode => {
     return (
         <section className="pt-[150px] md:pt-[190px] pb-20 w-full flex flex-col gap-[40px] md:gap-[90px]">
             <div className="flex flex-col w-full justify-center items-center">
-                <div className="p-2 bg-primary-light text-primary flex gap-2 items-center rounded-[10px]">
+                <motion.div 
+                    className="p-2 bg-primary-light text-primary flex gap-2 items-center rounded-[10px]"
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{delay: 0.5, duration: 0.5}}
+                >
                     <div className="">
                         <Image 
                             src={"/assets/home/top.png"}
@@ -44,18 +54,30 @@ const Home: React.FC = (): React.ReactNode => {
                     <div className="font-ibm-mono text-[13px] ">
                         over 100+ dreps available here
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="mt-5 text-[10vw] md:text-[5vw] flex gap-1 md:gap-5 items-center font-neue-regrade font-semibold flex-col md:flex-row leading-[1] md:leading-normal">
+                <motion.div 
+                    className="mt-5 text-[10vw] md:text-[5vw] flex gap-1 md:gap-5 items-center font-neue-regrade font-semibold flex-col md:flex-row leading-[1] md:leading-normal"
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{delay: 0.5, duration: 0.5}}
+                >
                     <span>
                         Governance with
                     </span>
                     <span className="stroke-text">
                         Transperancy
                     </span>
-                </div>
+                </motion.div>
 
-                <div className="w-[90%] md:w-[680px] flex p-4 md:p-5 gap-3 items-center bg-white rounded-xl border border-primary-light shadow-color mt-5 ">
+                <motion.div 
+                    className="w-[90%] md:w-[680px] flex p-4 md:p-5 gap-3 items-center bg-white rounded-xl border border-primary-light shadow-color mt-5 "
+                    initial={{ opacity: 0, y: 120 }}
+                    whileInView={{opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{delay: 0.75, duration: 0.5}}
+                >
                     <input 
                         type="text" 
                         className="flex-1 w-full bg-transparent outline-none placeholder:text-secondary/60 font-ibm-mono text-[13px] text-secondary font-medium"
@@ -63,41 +85,88 @@ const Home: React.FC = (): React.ReactNode => {
                     />
 
                     <FiSearch />
-                </div>
+                </motion.div>
             </div>
 
             <div className="w-full  bg-white px-[5%] py-7 pb-12 flex justify-center items-center shadow-[-5px_0px_13px_0px_#0000001A]">
-                <div className="max-w-[1600px] flex flex-col gap-6 md:gap-10 w-full">
+                <div ref={ref} className="max-w-[1600px] flex flex-col gap-6 md:gap-10 w-full">
                     <div className="w-full flex justify-between items-start md:items-center text-secondary-dark font-inter font-medium tracking-wide flex-col md:flex-row gap-2 ">
-                        <div className="text-base md:text-xl">
+                        <motion.div 
+                            className="text-base md:text-xl"
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{delay: 1.25, duration: 0.5}}
+                        >
                             Questions and answers
-                        </div>
-                        <div className="bg-[#EAEAEA] p-1.5 rounded-lg text-xs md:text-sm text-tertiary">
+                        </motion.div>
+                        <motion.div 
+                            className="p-1.5 rounded-lg text-xs md:text-sm text-tertiary"
+                            initial={{ backgroundColor: "transparent", opacity: 0 }}
+                            whileInView={{backgroundColor: "#EAEAEA", opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{delay: 1, duration: 0.5}}
+                        >
                             <div className="flex relative  ">
-                                {FILTERS.map((filter) => (
-                                    <div
+                                {FILTERS.map((filter, i) => (
+                                    <motion.div
                                         key={filter.type}
-                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} transition-all duration-200 cursor-pointer hover:text-secondary `}
+                                        className={`relative z-[1] px-2 py-1.5 ${active === filter.type ? "text-black " : "text-tertiary"} cursor-pointer hover:text-secondary `}
                                         onClick={() => setActive(filter.type)}
+                                        initial={{ opacity: 0, x: 50 }}
+                                        whileInView={{opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{delay: 1.25 + (i*0.1), duration: 0.5}}
                                     >
                                         {filter.label}
-                                    </div>
+                                    </motion.div>
                                 ))}
 
-                                <div 
-                                    className="absolute bg-white mix-blend-overlay shadow-md top-0 left-0 bottom-0 h-full rounded-md transition-all duration-200 z-0" 
+                                <motion.div 
+                                    className="absolute bg-white mix-blend-overlay shadow-md top-0 left-0 bottom-0 h-full rounded-md transition-[left_200ms,width_200ms] z-0" 
                                     style={{left: getLeftOffset(), width: getWidth()}}
+                                    initial={{ scale: 0, }}
+                                    whileInView={{scale: 1, }}
+                                    viewport={{ once: true }}
+                                    transition={{delay: 1.5, duration: 0.5}}
                                 />
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {
-                        (active === FILTER_TYPES.LATEST_ANSWERS || active === FILTER_TYPES.LATEST_QUESTIONS) &&
+                        active === FILTER_TYPES.LATEST_ANSWERS &&
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {
                                     Array(4).fill(0).map((_, i) => (
-                                        <QueAnsCard key={i} />
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: -40 }}
+                                            whileInView={{opacity: 1, x: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{delay: initialLoad ? 1.25 + (i*0.25) : i*0.25, duration: 0.5}}
+                                        >
+                                            <QueAnsCard />
+                                        </motion.div>
+                                    ))
+                                }
+                            </div>
+                    }
+
+                    {
+                        active === FILTER_TYPES.LATEST_QUESTIONS &&
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {
+                                    Array(4).fill(0).map((_, i) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: -40 }}
+                                            whileInView={{opacity: 1, x: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{delay: initialLoad ? 1.25 + (i*0.25) : i*0.25, duration: 0.5}}
+                                        >
+                                            <QueAnsCard />
+                                        </motion.div>
                                     ))
                                 }
                             </div>
@@ -108,7 +177,15 @@ const Home: React.FC = (): React.ReactNode => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {
                                     Array(6).fill(0).map((_, i) => (
-                                        <ProfileCard key={i} />
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: -40 }}
+                                            whileInView={{opacity: 1, x: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{delay: i*0.25, duration: 0.5}}
+                                        >
+                                            <ProfileCard />
+                                        </motion.div>
                                     ))
                                 }
                             </div>
