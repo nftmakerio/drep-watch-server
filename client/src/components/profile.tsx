@@ -150,7 +150,7 @@ const Profile: React.FC = (): React.ReactNode => {
                                             viewport={{ once: true }}
                                             transition={{delay: initialLoad ? 1 + (i*0.25) : i*0.25, duration: 0.5}}
                                         >
-                                            <QueAnsCard />
+                                            <QueAnsCard id={i+1} />
                                         </motion.div>
                                     ))
                                 }
