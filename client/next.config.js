@@ -1,7 +1,6 @@
 await import("./src/env.js");
 
-/** @type {import("next").NextConfig} */
-const config = {
+const nextConfig = {
     reactStrictMode: true,
 
     i18n: {
@@ -19,4 +18,13 @@ const config = {
     swcMinify: true,
 };
 
-export default config;
+const withPWA = async () => {
+    const nextPWA = (await import('next-pwa')).default;
+    return nextPWA({
+        dest: 'public',
+        disable: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
+        register: true,
+    });
+};
+
+export default withPWA().then((pwaConfig) => pwaConfig(nextConfig));
