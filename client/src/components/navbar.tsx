@@ -8,9 +8,9 @@ const Navbar: React.FC = (): React.ReactNode => {
     const device = useDeviceType();
 
     return (
-        <div className="fixed top-7 left-0 w-screen flex justify-center items-center z-[10] ">
+        <div className="fixed top-7 left-0 w-screen flex justify-center items-center z-[10] pointer-events-none ">
             <motion.header 
-                className="p-2 pl-6 bg-[#303030] shadow-sm flex justify-between items-center rounded-[14px] w-auto md:min-w-[500px] gap-8"
+                className="p-2 pl-6 bg-[#303030] shadow-sm flex justify-between items-center rounded-[14px] w-auto md:min-w-[500px] gap-8 pointer-events-auto"
                 whileHover={{ width: device!=="mobile" ? "600px" : "auto" }}
                 initial={{ opacity: 0 }}
                 animate={{opacity: 1 }}

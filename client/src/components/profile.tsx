@@ -62,7 +62,7 @@ const Profile: React.FC = (): React.ReactNode => {
                             <div className="text-tertiary font-ibm-mono text-xs md:text-sm tracking-wide text-center md:text-left">
                                 uqwdbd8271gd98n13241
                             </div>
-                            <div className="text-[36px] font-medium text-black font-neue-regrade ">
+                            <div className="text-[36px] font-semibold text-black font-neue-regrade ">
                                 Drep of NMKR
                             </div>
                             <div className="flex gap-2.5 items-center mt-5">

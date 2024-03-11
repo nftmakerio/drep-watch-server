@@ -205,9 +205,10 @@ function TitleAndInput({
             <div className="relative mt-2 font-medium">
                 {textArea ? (
                     <motion.textarea
-                        className="h-[182px] w-full resize-none overflow-hidden rounded-lg bg-tertiary-light text-secondary py-3 pl-5 pr-8 text-sm outline-none font-ibm-mono"
+                        className="w-full resize-none overflow-hidden rounded-lg bg-tertiary-light text-secondary py-3 pl-5 pr-8 text-sm outline-none font-ibm-mono"
                         placeholder={inputPlaceholder ?? "Lorem ipsum dolor sit amet"}
                         value={inpVal ?? ""}
+                        rows={6}
                         onChange={handleOnChange}
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{opacity: 1, x: 0 }}
