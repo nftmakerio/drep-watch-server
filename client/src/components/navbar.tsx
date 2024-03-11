@@ -28,16 +28,44 @@ const Navbar: React.FC = (): React.ReactNode => {
                         Drepwatch
                     </div>
                 </div>
-                <motion.button 
-                    className="px-4 md:px-6 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%] flex gap-2.5 items-center text-white rounded-lg"
-                    whileHover={{scaleX: 1.025}}
-                    whileTap={{scaleX: 0.995}}
+
+                <div 
+                    className="relative px-4 md:px-6 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-white rounded-lg group"
                 >
-                    <IoWalletSharp className="text-[24px]" />
-                    <div className="text-xs md:text-sm font-inter font-medium text-shadow ">
-                        Connect wallet
+                    <motion.button
+                        whileHover={{scaleX: 1.025}}
+                        whileTap={{scaleX: 0.995}}
+                        className="flex gap-2.5 items-center"
+                    >
+                        <IoWalletSharp className="text-[24px]" />
+                        <div className="text-xs md:text-sm font-inter font-medium text-shadow ">
+                            Connect wallet
+                        </div>
+                    </motion.button>
+
+
+                    <div className="absolute top-full w-full min-w-max right-0 translate-y-2 bg-white/60 backdrop-blur text-primary max-h-0 group-hover:max-h-[1000px] overflow-hidden transition-all duration-500 rounded-lg ">
+                        <div className="flex flex-col gap-3 p-3">
+                            {
+                                Array(3).fill(0).map((_, i) => (
+                                    <motion.button 
+                                        key={i}
+                                        className="w-full flex gap-2 items-center "
+                                        whileHover={{scaleX: 1.025}}
+                                        whileTap={{scaleX: 0.995}}
+                                    >
+                                        <div className="w-8 aspect-square bg-primary/50 rounded">
+                                            {/* img */}
+                                        </div>
+                                        <div className="font-inter font-semibold tracking-wide text-primary/80 text-sm">
+                                            Wallet {i+1} 
+                                        </div>
+                                    </motion.button>
+                                ))
+                            }
+                        </div>
                     </div>
-                </motion.button>
+                </div>
             </motion.header>
         </div>
     );

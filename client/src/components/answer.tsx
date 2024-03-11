@@ -84,7 +84,7 @@ const Answer: React.FC = (): React.ReactNode => {
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{delay: 1.25, duration: 0.5}}
+                            transition={{delay: 0.25, duration: 0.5}}
                         >
                             Further question to this Drep
                         </motion.div>
@@ -98,7 +98,7 @@ const Answer: React.FC = (): React.ReactNode => {
                                     initial={{ opacity: 0, x: -40 }}
                                     whileInView={{opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{delay: 1 + (i*0.25), duration: 0.5}}
+                                    transition={{delay: ((i+1)*0.25), duration: 0.5}}
                                 >
                                     <QueAnsCard id={i+1} />
                                 </motion.div>
