@@ -29,13 +29,11 @@ const Navbar: React.FC = (): React.ReactNode => {
                     </div>
                 </div>
 
-                <div 
-                    className="relative px-4 md:px-6 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-white rounded-lg group"
-                >
+                <div className="relative group">
                     <motion.button
                         whileHover={{scaleX: 1.025}}
                         whileTap={{scaleX: 0.995}}
-                        className="flex gap-2.5 items-center"
+                        className="flex gap-2.5 items-center px-4 md:px-6 py-2.5 bg-gradient-to-b from-[#FFC896] from-[-47.73%] to-[#FB652B] to-[78.41%]  text-white rounded-lg"
                     >
                         <IoWalletSharp className="text-[24px]" />
                         <div className="text-xs md:text-sm font-inter font-medium text-shadow ">
@@ -44,7 +42,7 @@ const Navbar: React.FC = (): React.ReactNode => {
                     </motion.button>
 
 
-                    <div className="absolute top-full w-full min-w-max right-0 translate-y-2 bg-white/60 backdrop-blur text-primary max-h-0 group-hover:max-h-[1000px] overflow-hidden transition-all duration-500 rounded-lg ">
+                    <div className="absolute top-full w-full min-w-max right-0 translate-y-2 bg-white/60 backdrop-blur text-primary max-h-0 group-hover:max-h-[180px] overflow-hidden transition-all duration-500 rounded-lg ">
                         <div className="flex flex-col gap-3 p-3">
                             {
                                 Array(3).fill(0).map((_, i) => (
