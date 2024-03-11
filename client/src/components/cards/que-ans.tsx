@@ -12,7 +12,7 @@ const QueAnsCard: React.FC<QueAnsCardProps> = ({ large=false, id }: QueAnsCardPr
     const router = useRouter();
     const handleClick = () => {
         if(!large && id) {
-            router.push(`/answer/${id}`)
+            void router.push(`/answer/${id}`)
         }
     }
 

@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Answer from "~/components/answer";
 
+import Answer from "~/components/answer";
 import Layout from "~/layout";
 
 export default function Index() {
