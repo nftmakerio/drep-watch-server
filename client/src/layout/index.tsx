@@ -17,14 +17,13 @@ const mono_font = IBM_Plex_Mono({
 const neue_regrade_font = localFont({ 
     src: '../../public/fonts/Neue Regrade Variable.ttf', 
     variable: "--font-neue-regrade",
-})
+});
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <main
             className={`relative min-h-screen w-full bg-[#f5f5f5] ${inter_font.variable} ${mono_font.variable} ${neue_regrade_font.variable} grid-lines`}
         >
-            {/* mx-auto flex h-full w-[90%] flex-col items-center justify-center md:w-[87.5%] */}
             <Navbar />
             {children}
         </main>

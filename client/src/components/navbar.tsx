@@ -1,6 +1,7 @@
 import { IoWalletSharp } from "react-icons/io5";
-import Image from "next/image";
 import {motion} from 'framer-motion';
+import Image from "next/image";
+
 import useDeviceType from "~/hooks/use-device-type";
 
 const Navbar: React.FC = (): React.ReactNode => {

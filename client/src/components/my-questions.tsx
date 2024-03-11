@@ -1,8 +1,9 @@
 import { GoArrowRight } from "react-icons/go";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import QueAnsCard from "./cards/que-ans";
-import { motion } from "framer-motion";
+
 import useInView from "~/hooks/use-in-view";
 
 const MyQuestions: React.FC = (): React.ReactNode => {

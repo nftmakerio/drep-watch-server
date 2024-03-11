@@ -1,6 +1,6 @@
 import { BsChatQuoteFill } from "react-icons/bs";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface ProfileCardProps {
     test?: string;

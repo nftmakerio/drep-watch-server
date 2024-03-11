@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BsChatQuoteFill } from "react-icons/bs";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import QueAnsCard from "./cards/que-ans";
@@ -7,7 +8,6 @@ import Vote from "./cards/vote";
 
 import { P_FILTER_TYPES, P_FILTERS, P_SMALL_WIDTHS, P_WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
-import { motion } from "framer-motion";
 import useInView from "~/hooks/use-in-view";
 
 const Profile: React.FC = (): React.ReactNode => {

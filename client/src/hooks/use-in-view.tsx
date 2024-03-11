@@ -39,7 +39,7 @@ const useInView = (options: UseInViewOptions = {}): UseInViewResult => {
         };
     }, [initialLoad, options]);
 
-    return { ref, initialLoad };
+    return { initialLoad, ref };
 };
 
 export default useInView;

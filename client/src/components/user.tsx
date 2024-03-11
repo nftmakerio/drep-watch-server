@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import { type UserType } from "~/types";
-import { motion } from "framer-motion";
 
 interface UserProps {
     user: UserType

@@ -1,7 +1,7 @@
 import { type ChangeEvent, useState } from "react";
+import { motion } from "framer-motion";
 
 import User from "./user";
-import { motion } from "framer-motion";
 
 interface QuestionsProps {
     question : {

@@ -1,6 +1,6 @@
 import { MdShare } from "react-icons/md";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface QueAnsCardProps {
     test?: string;

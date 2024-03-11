@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 interface VoteProps {
     test?: string;

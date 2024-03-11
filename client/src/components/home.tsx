@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { motion } from "framer-motion";
 import Image from "next/image";
-
 
 import ProfileCard from "./cards/profile";
 import QueAnsCard from "./cards/que-ans";
 
 import { FILTER_TYPES, FILTERS, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
-import { motion } from "framer-motion";
 import useInView from "~/hooks/use-in-view";
 
 const Home: React.FC = (): React.ReactNode => {
