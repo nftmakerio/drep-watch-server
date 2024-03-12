@@ -5,6 +5,9 @@ export default {
     plugins: [],
     theme: {
         extend: {
+            animation: {
+                spin: 'spin 0.5s linear infinite',
+            },
             boxShadow: {
                 'color': '0px 0px 9px 0px #FFBFA7A6',
                 'sm': '0px 4px 5px 0px rgba(0, 0, 0, 0.25)',
@@ -22,9 +25,6 @@ export default {
                 "ibm-mono": ["var(--font-ibm-mono)"],
                 "inter": ["var(--font-inter)"],
                 "neue-regrade": ["var(--font-neue-regrade)"],
-            },
-            animation: {
-                spin: 'spin 0.5s linear infinite',
             },
             keyframes: {
                 spin: {

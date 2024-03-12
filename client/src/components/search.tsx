@@ -3,6 +3,7 @@ import { BsChatQuoteFill } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
+
 import Loader from "./loader";
 
 const Search: React.FC = (): React.ReactNode => {
