@@ -23,6 +23,15 @@ export default {
                 "inter": ["var(--font-inter)"],
                 "neue-regrade": ["var(--font-neue-regrade)"],
             },
+            animation: {
+                spin: 'spin 0.5s linear infinite',
+            },
+            keyframes: {
+                spin: {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(-360deg)' },
+                },
+            },
         },
     },
 } satisfies Config;

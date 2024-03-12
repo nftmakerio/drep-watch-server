@@ -3,9 +3,11 @@ import { BsChatQuoteFill } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Loader from "./loader";
 
 const Search: React.FC = (): React.ReactNode => {
     const [searchText, setSearchText] = useState<string>("");
+    // const [loading, setLoading] = useState<boolean>(true);
 
     return (
         <motion.div 
@@ -22,7 +24,12 @@ const Search: React.FC = (): React.ReactNode => {
                 onChange={(e) => setSearchText(e.target.value)}
             />
 
-            <FiSearch />
+            {
+                searchText ? <Loader /> : <FiSearch />
+            }
+            {/* {
+                loading && <Loader />
+            } */}
 
 
             <div className={`absolute left-0 top-full translate-y-4 w-full  bg-white border-brd-clr rounded-lg overflow-hidden ${searchText ? "max-h-[415px] md:max-h-[350px] border-b " : "max-h-0 border-0"} transition-all duration-300  `}>
