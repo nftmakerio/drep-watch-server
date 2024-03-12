@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import Image from "next/image";
 import { useState } from "react";
 import { BsChatQuoteFill } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 const Search: React.FC = (): React.ReactNode => {
     const [searchText, setSearchText] = useState<string>("");
@@ -28,7 +28,7 @@ const Search: React.FC = (): React.ReactNode => {
             <div className={`absolute left-0 top-full translate-y-4 w-full  bg-white border-brd-clr rounded-lg overflow-hidden ${searchText ? "max-h-[415px] md:max-h-[350px] border-b " : "max-h-0 border-0"} transition-all duration-300  `}>
                 <div className="p-3 md:px-5 md:py-4">
                     {
-                        Array(3).fill(0).map((_, i, a) => (
+                        Array(3).fill(0).map((_, i) => (
                             <div 
                                 key={i}
                                 className={`p-3 border-b border-primary-light flex flex-col md:flex-row justify-between items-center gap-2`}

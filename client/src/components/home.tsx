@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 import ProfileCard from "./cards/profile";
 import QueAnsCard from "./cards/que-ans";
+import Search from "./search";
 
 import { FILTER_TYPES, FILTERS, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
 import useInView from "~/hooks/use-in-view";
-import Search from "./search";
 
 const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
