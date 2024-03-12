@@ -9,6 +9,7 @@ import QueAnsCard from "./cards/que-ans";
 import { FILTER_TYPES, FILTERS, SMALL_WIDTHS, WIDTHS } from "~/constants";
 import useDeviceType from "~/hooks/use-device-type";
 import useInView from "~/hooks/use-in-view";
+import Search from "./search";
 
 const Home: React.FC = (): React.ReactNode => {
     const [active, setActive] = useState<number>(FILTER_TYPES.LATEST_ANSWERS);
@@ -70,21 +71,7 @@ const Home: React.FC = (): React.ReactNode => {
                     </span>
                 </motion.div>
 
-                <motion.div 
-                    className="w-[90%] md:w-[680px] flex p-4 md:p-5 gap-3 items-center bg-white rounded-xl border border-primary-light shadow-color mt-5 "
-                    initial={{ opacity: 0, y: 120 }}
-                    whileInView={{opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{delay: 0.75, duration: 0.5}}
-                >
-                    <input 
-                        type="text" 
-                        className="flex-1 w-full bg-transparent outline-none placeholder:text-secondary/60 font-ibm-mono text-[13px] text-secondary font-medium"
-                        placeholder="search dreps here"
-                    />
-
-                    <FiSearch />
-                </motion.div>
+                <Search />
             </div>
 
             <div className="w-full  bg-white px-[5%] py-7 pb-12 flex justify-center items-center shadow-[-5px_0px_13px_0px_#0000001A]">
