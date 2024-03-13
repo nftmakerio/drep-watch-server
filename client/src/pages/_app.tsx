@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
 import { MeshProvider } from "@meshsdk/react";
+import Lenis from "@studio-freight/lenis";
 import { type AppType } from "next/dist/shared/lib/utils";
 
 import "~/styles/globals.css";

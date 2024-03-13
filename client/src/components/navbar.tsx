@@ -1,13 +1,14 @@
 import { IoWalletSharp } from "react-icons/io5";
+import { BrowserWallet } from "@meshsdk/core";
+import { useWallet, useWalletList } from "@meshsdk/react";
+import axios, { AxiosError } from 'axios';
 import {motion} from 'framer-motion';
 import Image from "next/image";
-import axios, { AxiosError } from 'axios';
 
-import useDeviceType from "~/hooks/use-device-type";
-import { useWallet, useWalletList } from "@meshsdk/react";
-import { wallets } from "~/constants/wallets";
 import Loader from "./loader";
-import { BrowserWallet } from "@meshsdk/core";
+
+import { wallets } from "~/constants/wallets";
+import useDeviceType from "~/hooks/use-device-type";
 
 const Navbar: React.FC = (): React.ReactNode => {
     const device = useDeviceType();
@@ -23,8 +24,8 @@ const Navbar: React.FC = (): React.ReactNode => {
             const address = (await wallet.getRewardAddresses())[0];
 
             const requestData = {
-                name: null,
                 email: null,
+                name: null,
                 wallet_address: address
             }
 
