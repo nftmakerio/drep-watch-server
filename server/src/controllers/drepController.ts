@@ -126,4 +126,20 @@ const getDrepSearch = async (req: Request, res: Response) => {
         res.status(err.status).json({ message: err.message });
     }
 }
-export { createDrep, getDrepProfile, getDrepSearch };
+const getDreps = async (req: Request, res: Response) => {
+    try {
+        let limit = 6;
+        if (!!parseInt(req.query.limit as string)) {
+            limit = parseInt(req.query.limit as string)
+        }
+        const dreps = await DrepModel.getDreps(limit);
+        console.log(dreps);
+        if (!dreps) {
+            throw { status: 404, message: "No dreps found" };
+        }
+        res.status(200).json(dreps);
+    } catch (err: any) {
+        res.status(err.status).json({ message: err.message });
+    }
+}
+export { createDrep, getDrepProfile, getDrepSearch, getDreps };

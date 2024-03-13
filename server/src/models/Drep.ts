@@ -38,7 +38,24 @@ class DrepModel {
                     .select('*')
                     .ilike("name", `${search_query}%`);
             console.log(data);
-            
+
+            if (error)
+                throw error;
+            if (!data)
+                return undefined;
+            return data;
+        } catch (err: any) {
+            return err;
+        }
+    }
+    static async getDreps(limit: number): Promise<Drep[] | undefined> {
+        try {
+            const { data, error } = await
+                supabase
+                    .from("dreps")
+                    .select('*')
+                    .limit(limit);
+            console.log(data);
             if (error)
                 throw error;
             if (!data)
