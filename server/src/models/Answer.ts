@@ -40,7 +40,7 @@ class AnswerModel {
                 throw error;
             if (!data)
                 return undefined;
-            return data[0].answer;
+            return data.length > 0 ? data[0].answer : "";
         } catch (err: any) {
             return err;
         }
