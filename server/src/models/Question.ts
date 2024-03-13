@@ -91,8 +91,9 @@ class QuestionModel {
             if (!data)
                 return undefined;
             console.log(data);
-            const questions: Question[] = data.map((item) => {
+            const questions: (Question & { id: number })[] = data.map((item) => {
                 return {
+                    id: item.id,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
@@ -120,8 +121,9 @@ class QuestionModel {
 
             if (error) throw error;
             if (!data) return undefined;
-            const questions: Question[] = data.map((item) => {
+            const questions: (Question & { id: number })[] = data.map((item) => {
                 return {
+                    id: item.id,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
