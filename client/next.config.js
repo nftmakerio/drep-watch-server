@@ -9,20 +9,28 @@ const nextConfig = {
     },
 
     typescript: {
-        ignoreBuildErrors: process.env.NEXT_PUBLIC_NODE_ENV !== 'development',
+        ignoreBuildErrors: process.env.NEXT_PUBLIC_NODE_ENV !== "development",
     },
     eslint: {
-        ignoreDuringBuilds: process.env.NEXT_PUBLIC_NODE_ENV !== 'development',
+        ignoreDuringBuilds: process.env.NEXT_PUBLIC_NODE_ENV !== "development",
     },
 
     swcMinify: true,
+
+    webpack: function (config, options) {
+        config.experiments = {
+            asyncWebAssembly: true,
+            layers: true,
+        };
+        return config;
+    },
 };
 
 const withPWA = async () => {
-    const nextPWA = (await import('next-pwa')).default;
+    const nextPWA = (await import("next-pwa")).default;
     return nextPWA({
-        dest: 'public',
-        disable: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
+        dest: "public",
+        disable: process.env.NEXT_PUBLIC_NODE_ENV === "development",
         register: true,
     });
 };

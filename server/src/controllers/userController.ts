@@ -15,18 +15,27 @@ const createUser = async (
         const { email, name, wallet_address } = req.body;
 
         // Validate input
-        if (!email || !name || !wallet_address) {
+        if (!wallet_address) {
             return res
                 .status(400)
                 .json({ success: false, message: "Missing required fields" });
         }
 
-        // Check if the user already exists in Supabase by email
-        const existingUserByEmail = await supabase
-            .from("dreps-users")
-            .select("wallet_address")
-            .eq("email", email)
-            .single();
+        if(email) {
+            // Check if the user already exists in Supabase by email
+            const existingUserByEmail = await supabase
+                .from("dreps-users")
+                .select("wallet_address")
+                .eq("email", email)
+                .single();
+            
+            // Handle cases where either email or wallet address is already in use
+            if (existingUserByEmail.data) {
+                return res
+                    .status(409)
+                    .json({ success: false, message: "Email already exists" });
+            }
+        }
 
         // Check if the user already exists in Supabase by wallet address
         const existingUserByWallet = await supabase
@@ -35,12 +44,6 @@ const createUser = async (
             .eq("wallet_address", wallet_address)
             .single();
 
-        // Handle cases where either email or wallet address is already in use
-        if (existingUserByEmail.data) {
-            return res
-                .status(409)
-                .json({ success: false, message: "Email already exists" });
-        }
 
         if (existingUserByWallet.data) {
             return res.status(409).json({

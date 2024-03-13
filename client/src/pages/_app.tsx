@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "@studio-freight/lenis";
+import { MeshProvider } from "@meshsdk/react";
 import { type AppType } from "next/dist/shared/lib/utils";
 
 import "~/styles/globals.css";
@@ -18,7 +19,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         return () => lenis.destroy();
     }, []);
 
-    return <Component {...pageProps} />;
+    return (
+        <MeshProvider>
+            <Component {...pageProps} />
+        </MeshProvider>
+    );
 };
 
 export default MyApp;
