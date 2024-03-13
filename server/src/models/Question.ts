@@ -90,7 +90,6 @@ class QuestionModel {
                 throw error;
             if (!data)
                 return undefined;
-            console.log(data);
             const questions: Question[] = data.map((item) => {
                 return {
                     theme: item.theme,
@@ -100,9 +99,28 @@ class QuestionModel {
                     drep_id: item.drep_id
                 }
             });
-            console.log(questions);
             return questions;
 
+        } catch (err: any) {
+            console.log(err);
+            return err;
+        }
+    }
+    static async getQuestionsByUserId(user_id: number): Promise<Question[] | undefined> {
+        try {
+            const { data, error } = await supabase.from("questions").select("*").eq("user_id", user_id);
+            if (error)
+                throw error;
+            const questions: Question[] = data.map((item) => {
+                return {
+                    theme: item.theme,
+                    question_title: item.question_title,
+                    question_description: item.question_description,
+                    user_id: item.user_id,
+                    drep_id: item.drep_id
+                }
+            });
+            return questions;
         } catch (err: any) {
             console.log(err);
             return err;

@@ -30,5 +30,23 @@ class DrepModel {
             return err;
         }
     }
+    static async getDrepByQuery(search_query: string): Promise<Drep[] | undefined> {
+        try {
+            const { data, error } = await
+                supabase
+                    .from("dreps")
+                    .select('*')
+                    .textSearch('name', `${search_query}`);
+            console.log(data);
+            
+            if (error)
+                throw error;
+            if (!data)
+                return undefined;
+            return data;
+        } catch (err: any) {
+            return err;
+        }
+    }
 }
 export default DrepModel;
