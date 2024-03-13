@@ -36,7 +36,7 @@ class DrepModel {
                 supabase
                     .from("dreps")
                     .select('*')
-                    .textSearch('name', `${search_query}`);
+                    .ilike("name", `${search_query}%`);
             console.log(data);
             
             if (error)
