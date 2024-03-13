@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import supabase from "../supabase/db";
 import { UserModel } from "../models/User";
-import { QuestionModel } from "../models/Question";
 
 interface UserRequestBody {
     email: string;
@@ -90,23 +89,4 @@ const getUser = async (req: Request, res: Response) => {
         res.status(err.status).json({ message: err.message });
     }
 }
-// const getUserProfile = async (req: Request, res: Response) => {
-//     try {
-//         const user_id = parseInt(req.params.user_id);
-//         const user = await UserModel.getUserById(user_id);
-//         if (!user)
-//             throw { status: 400, message: "User does not exist" };
-//         const userQuestions = await QuestionModel.getQuestionsByUserId(user_id);
-//         // if(!userQuestions)
-//         //     res.status(400).json({message: "No questions asked"});
-//         const resBody = {
-//             name: user.name,
-//             email: user.email,
-//             questions: (!userQuestions) ? [] : userQuestions
-//         }
-//         res.status(200).json(resBody);
-//     } catch (err: any) {
-//         res.status(err.status).json({ message: err.message });
-//     }
-// }
 export { createUser, getUser };
