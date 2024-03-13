@@ -24,3 +24,24 @@ export const getAnswer = async (req: Request, res: Response) => {
         res.status(err.status).json({ message: err.message });
     }
 }
+export const getAnswers = async (req: Request, res: Response) => {
+    try {
+        // console.log(req.params);
+        const isLatest = (req.query.latest as string) === "true";
+        if (!isLatest) {
+            throw {
+                status: 400,
+                message: `latest param not true`,
+            };
+        }
+        const answers = await AnswerModel.getLatestDrepAnswers();
+        if (!answers)
+            throw {
+                status: 400,
+                message: `Could not fetch latest questions`,
+            };
+        res.status(200).json({ answers });
+    } catch (err: any) {
+        res.status(err.status).json({ message: err.message });
+    }
+}
