@@ -64,14 +64,13 @@ export const getQuestionsByTheme = async (req: Request, res: Response) => {
 }
 export const getQuestionByUser = async (req: Request, res: Response) => {
     try {
-        const user_id = req.query.user_id;
-        if(!user_id)
-            throw {status: 400,message: "No query provided"};
-        const id = parseInt(user_id.toString());
-        const questions = await QuestionModel.getQuestionsByUserId(id);
+        const user_id = parseInt(req.params.user_id);
+        if (!user_id)
+            throw { status: 400, message: "User id not provided" };
+        const questions = await QuestionModel.getQuestionsByUserId(user_id);
         if (!questions)
-            throw { status: 400, message: "Could not fetch questions" };
-        res.status(200).json(questions);
+            throw { status: 400, message: "could not fetch the questions" };
+        res.status(200).json({ questions: questions });
     } catch (err: any) {
         res.status(err.status || 500).json({ message: err.message });
     }

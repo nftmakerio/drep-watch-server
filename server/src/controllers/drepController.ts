@@ -112,7 +112,7 @@ const getDrepSearch = async (req: Request, res: Response) => {
         const search_query = req.query.search_query as string;
         const dreps = await DrepModel.getDrepByQuery(search_query);
         console.log(dreps);
-        
+
         if (!dreps) {
             throw { status: 404, message: "No dreps found" };
         }
@@ -121,4 +121,4 @@ const getDrepSearch = async (req: Request, res: Response) => {
         res.status(err.status).json({ message: err.message });
     }
 }
-export { createDrep, getDrepProfile,getDrepSearch };
+export { createDrep, getDrepProfile, getDrepSearch };

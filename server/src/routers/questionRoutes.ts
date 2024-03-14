@@ -11,7 +11,7 @@ const router = Router();
 router.get("/", getLatestQuestions);
 router.post("/ask-question", createQuestion);
 router.get("/:id", getQuestion);
-router.get("/",getQuestionByUser);//pass the user_id to query
+router.get("/user/:user_id",getQuestionByUser);//pass the user_id to query
 router.get("/theme/:theme", getQuestionsByTheme);
 
 export default router;
