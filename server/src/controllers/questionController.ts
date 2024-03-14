@@ -28,10 +28,30 @@ export const getQuestion = async (req: Request, res: Response) => {
         res.status(err.status || 500).json({ message: err.message });
     }
 }
-export const getQuestionsByTheme = async (req: Request, res: Response) => {
+export const getLatestQuestions = async (req: Request, res: Response) => {
     try {
         // console.log(req.params);
-        const reqTheme = (req.query.theme) as string;
+        const isLatest = (req.query.latest as string) === "true";
+        if (!isLatest) {
+            throw {
+                status: 400,
+                message: `latest param not true`,
+            };
+        }
+        const questions = await QuestionModel.getLatestQuestions();
+        if (!questions)
+            throw {
+                status: 400,
+                message: `Could not fetch latest questions`,
+            };
+        res.status(200).json({ questions: questions });
+    } catch (err: any) {
+        res.status(err.status).json({ message: err.message });
+    }
+};
+export const getQuestionsByTheme = async (req: Request, res: Response) => {
+    try {
+        const reqTheme = req.params.theme;
         console.log(reqTheme);
         const questions = await QuestionModel.getQuestionByTheme(reqTheme);
         if (!questions)
@@ -40,5 +60,19 @@ export const getQuestionsByTheme = async (req: Request, res: Response) => {
 
     } catch (err: any) {
         res.status(err.status).json({ message: err.message });
+    }
+}
+export const getQuestionByUser = async (req: Request, res: Response) => {
+    try {
+        const user_id = req.query.user_id;
+        if(!user_id)
+            throw {status: 400,message: "No query provided"};
+        const id = parseInt(user_id.toString());
+        const questions = await QuestionModel.getQuestionsByUserId(id);
+        if (!questions)
+            throw { status: 400, message: "Could not fetch questions" };
+        res.status(200).json(questions);
+    } catch (err: any) {
+        res.status(err.status || 500).json({ message: err.message });
     }
 }

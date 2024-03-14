@@ -40,7 +40,7 @@ class AnswerModel {
                 throw error;
             if (!data)
                 return undefined;
-            return data[0].answer;
+            return data.length > 0 ? data[0].answer : "";
         } catch (err: any) {
             return err;
         }
@@ -58,6 +58,31 @@ class AnswerModel {
             if (!data)
                 return undefined;
             return data.length;
+        } catch (err: any) {
+            return err;
+        }
+    }
+    static async getLatestDrepAnswers(limit = 10): Promise<(Answer & { id: number })[] | undefined> {
+        try {
+            const { data, error } = await
+                supabase
+                    .from("answers")
+                    .select("*")
+                    .order("id", { ascending: false })
+                    .limit(limit);
+            if (error)
+                throw error;
+            if (!data)
+                return undefined;
+            const answers: (Answer & { id: number })[] = data.map((item) =>
+            ({
+                id: item.id,
+                answer: item.answer,
+                question_id: item.question_id,
+                drep_id: item.drep_id
+            }));
+            console.log(data)
+            return answers
         } catch (err: any) {
             return err;
         }
