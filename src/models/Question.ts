@@ -154,6 +154,26 @@ class QuestionModel {
             return err;
         }
     }
+    static async getQuestionsForDrepId(drep_id: string): Promise<Question[] | undefined> {
+        try {
+            const { data, error } = await supabase.from("questions").select("*").eq("drep_id", drep_id);
+            if (error)
+                throw error;
+            const questions: Question[] = data.map((item) => {
+                return {
+                    theme: item.theme,
+                    question_title: item.question_title,
+                    question_description: item.question_description,
+                    user_id: item.user_id,
+                    drep_id: item.drep_id
+                }
+            });
+            return questions;
+        } catch (err: any) {
+            console.log(err);
+            return err;
+        }
+    }
 }
 
 export { Question, QuestionModel };
