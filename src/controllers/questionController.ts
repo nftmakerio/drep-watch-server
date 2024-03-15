@@ -17,9 +17,8 @@ export const createQuestion = async (req: Request, res: Response) => {
 
 export const getQuestion = async (req: Request, res: Response) => {
   try {
-    const questionId: number = parseInt(req.params.id);
-    console.log(questionId);
-    const question = await QuestionModel.getQuestionById(questionId);
+    const uuid = req.params.id as string;
+    const question = await QuestionModel.getQuestionById(uuid);
     if (!question) throw { status: 400, message: "Invalid questionId" };
     res.status(200).json({ question: question });
   } catch (err: any) {

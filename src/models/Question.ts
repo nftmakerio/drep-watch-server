@@ -1,4 +1,7 @@
 import supabase from "../supabase/db";
+import short from "short-uuid";
+
+const translator=short();
 
 interface Question {
     theme: string;
@@ -38,13 +41,13 @@ class QuestionModel {
             return err;
         }
     }
-    //method to get a drep id 
-    static async getQuestionById(id: number): Promise<Question | undefined> {
+    //method to get a question by uuid 
+    static async getQuestionById(uuid: string): Promise<Question | undefined> {
         try {
             const { data, error } = await supabase
                 .from('questions')
                 .select('*')
-                .eq('id', id)
+                .eq('uuid', translator.toUUID(uuid))
                 .single();
 
             if (error)
@@ -63,7 +66,7 @@ class QuestionModel {
             return err;
         }
     }
-    //method to fetch the number o questions asked to a drep provided its drep_id
+    //method to fetch the number of questions asked to a drep provided its drep_id
     static async getDrepQuestions(id: string): Promise<number | undefined> {
         try {
             const { data, error } = await
@@ -91,9 +94,9 @@ class QuestionModel {
                 throw error;
             if (!data)
                 return undefined;
-            const questions: (Question & { id: number })[] = data.map((item) => {
+            const questions: (Question & { uuid: string })[] = data.map((item) => {
                 return {
-                    id: item.id,
+                    uuid: translator.fromUUID(item.uuid) as string,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
@@ -120,9 +123,9 @@ class QuestionModel {
 
             if (error) throw error;
             if (!data) return undefined;
-            const questions: (Question & { id: number })[] = data.map((item) => {
+            const questions: (Question & { uuid: string })[] = data.map((item) => {
                 return {
-                    id: item.id,
+                    uuid: translator.fromUUID(item.uuid) as string,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
@@ -150,8 +153,7 @@ class QuestionModel {
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
                     drep_id: item.drep_id,
-                    id: item.id,
-
+                    uuid: translator.fromUUID(item.uuid) as string,
                 }
             });
             return questions;
@@ -176,7 +178,7 @@ class QuestionModel {
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
                     drep_id: item.drep_id,
-                    id: item.id,
+                    uuid: translator.fromUUID(item.uuid) as string,
                 }
             });
             return questions;
