@@ -25,7 +25,7 @@ const createUser = async (
         if(email) {
             // Check if the user already exists in Supabase by email
             const existingUserByEmail = await supabase
-                .from("dreps-users")
+                .from("users")
                 .select("wallet_address")
                 .eq("email", email)
                 .single();
@@ -40,8 +40,8 @@ const createUser = async (
 
         // Check if the user already exists in Supabase by wallet address
         const existingUserByWallet = await supabase
-            .from("dreps-users")
-            .select("email")
+            .from("users")
+            .select("*")
             .eq("wallet_address", wallet_address)
             .single();
 
@@ -55,7 +55,7 @@ const createUser = async (
 
         // Create a new user in Supabase
         const { error } = await supabase
-            .from("dreps-users")
+            .from("users")
             .insert([{ email, name, wallet_address }])
             .select();
 
