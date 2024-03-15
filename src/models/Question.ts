@@ -47,7 +47,7 @@ class QuestionModel {
             const { data, error } = await supabase
                 .from('questions')
                 .select('*')
-                .eq('uuid', translator.toUUID(uuid))
+                .eq('uuid', uuid)
                 .single();
 
             if (error)
@@ -96,7 +96,7 @@ class QuestionModel {
                 return undefined;
             const questions: (Question & { uuid: string })[] = data.map((item) => {
                 return {
-                    uuid: translator.fromUUID(item.uuid) as string,
+                    uuid: item.uuid as string,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
@@ -125,7 +125,7 @@ class QuestionModel {
             if (!data) return undefined;
             const questions: (Question & { uuid: string })[] = data.map((item) => {
                 return {
-                    uuid: translator.fromUUID(item.uuid) as string,
+                    uuid: item.uuid as string,
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
@@ -153,7 +153,7 @@ class QuestionModel {
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
                     drep_id: item.drep_id,
-                    uuid: translator.fromUUID(item.uuid) as string,
+                    uuid: item.uuid as string,
                 }
             });
             return questions;
@@ -178,7 +178,7 @@ class QuestionModel {
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
                     drep_id: item.drep_id,
-                    uuid: translator.fromUUID(item.uuid) as string,
+                    uuid: item.uuid as string,
                 }
             });
             return questions;

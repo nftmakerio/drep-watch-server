@@ -34,13 +34,15 @@ class AnswerModel {
   }
   //method to get answer by questionId
   static async getAnswerByQuestionId(
-    questionId: number
+    questionId: string
   ): Promise<(Answer & { id: number }) | undefined> {
     try {
       const { data, error } = await supabase
         .from("answers")
         .select("*")
         .eq("question_id", questionId);
+
+      console.log(questionId, "test 1134");
 
       if (error) throw error;
       if (!data || data.length <= 0) return undefined;
