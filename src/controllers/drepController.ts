@@ -7,7 +7,7 @@ import { AnswerModel } from "../models/Answer";
 interface DrepRequestBody {
     email: string;
     name: string;
-    pool_id: string;
+    drep_id: string;
 }
 
 const createDrep = async (
@@ -15,10 +15,10 @@ const createDrep = async (
     res: Response
 ) => {
     try {
-        const { email, name, pool_id } = req.body;
+        const { email, name, drep_id } = req.body;
 
         // Validate input
-        if (!email || !name || !pool_id) {
+        if (!email || !name || !drep_id) {
             return res
                 .status(400)
                 .json({ success: false, message: "Missing required fields" });
@@ -35,7 +35,7 @@ const createDrep = async (
         const existingAdminByPoolId = await supabase
             .from("dreps-admins")
             .select("email")
-            .eq("drep_id", pool_id)
+            .eq("drep_id", drep_id)
             .single();
 
         // Handle cases where either email or pool_id is already in use
@@ -53,14 +53,14 @@ const createDrep = async (
                 .status(409)
                 .json({
                     success: false,
-                    message: "Admin with this pool_id already exists",
+                    message: "Admin with this drep_id already exists",
                 });
         }
 
         // Create a new admin in Supabase
         const { error } = await supabase
             .from("dreps-admins")
-            .insert([{ email, name, drep_id: pool_id }])
+            .insert([{ email, name, drep_id: drep_id }])
             .select();
 
         if (error) {
