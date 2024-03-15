@@ -14,13 +14,13 @@ class UserModel {
         this.name = name;
         this.wallet_address = wallet_address;
     }
-    static async getUserById(id: number): Promise<User | undefined> {
+    static async getUserByWalletAddress(wallet_address: string): Promise<User | undefined> {
         try {
             const { data, error } = await
                 supabase
                     .from("users")
                     .select("name,email,wallet_address")
-                    .eq("id", id).single();
+                    .eq("wallet_address", wallet_address).single();
             if (error)
                 throw error;
             if (!data)

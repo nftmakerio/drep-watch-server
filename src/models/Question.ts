@@ -4,21 +4,21 @@ interface Question {
     theme: string;
     question_title: string;
     question_description: string;
-    user_id: number;
+    wallet_address: string;
     drep_id: string;
 }
 class QuestionModel {
     private theme: string;
     private question_title: string;
     private question_description: string;
-    private user_id: number;
+    private wallet_address: string;
     private drep_id: string;
 
-    constructor({ theme, question_title, question_description, user_id, drep_id }: Question) {
+    constructor({ theme, question_title, question_description, wallet_address, drep_id }: Question) {
         this.theme = theme;
         this.question_title = question_title;
         this.question_description = question_description;
-        this.user_id = user_id;
+        this.wallet_address = wallet_address;
         this.drep_id = drep_id;
     }
     async save(): Promise<boolean | string> {
@@ -27,7 +27,7 @@ class QuestionModel {
                 theme: this.theme,
                 question_title: this.question_title,
                 question_description: this.question_description,
-                user_id: this.user_id,
+                wallet_address: this.wallet_address,
                 drep_id: this.drep_id
             }
             const { data, error } = await supabase.from("questions").insert(newQuestion).single();
@@ -43,20 +43,21 @@ class QuestionModel {
         try {
             const { data, error } = await supabase
                 .from('questions')
-                .select('theme, question_title, question_description, user_id,drep_id')
-                .eq('id', id);
+                .select('*')
+                .eq('id', id)
+                .single();
 
             if (error)
                 throw error;
-            const question = {
-                theme: data[0].theme,
-                question_title: data[0].question_title,
-                question_description: data[0].question_description,
-                user_id: data[0].user_id,
-                drep_id: data[0].drep_id
-            }
             if (!data)
                 return undefined;
+            const question = {
+                theme: data.theme,
+                question_title: data.question_title,
+                question_description: data.question_description,
+                wallet_address: data.wallet_address,
+                drep_id: data.drep_id
+            }
             return question as Question;
         } catch (err: any) {
             return err;
@@ -96,7 +97,7 @@ class QuestionModel {
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
-                    user_id: item.user_id,
+                    wallet_address: item.wallet_address,
                     drep_id: item.drep_id
                 }
             });
@@ -125,7 +126,7 @@ class QuestionModel {
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
-                    user_id: item.user_id,
+                    wallet_address: item.wallet_address,
                     drep_id: item.drep_id,
                 };
             });
@@ -134,9 +135,12 @@ class QuestionModel {
             return err;
         }
     }
-    static async getQuestionsByUserId(user_id: number): Promise<Question[] | undefined> {
+    static async getQuestionsByUserId(wallet_address: string): Promise<Question[] | undefined> {
         try {
-            const { data, error } = await supabase.from("questions").select("*").eq("user_id", user_id);
+            const { data, error } = await supabase
+                .from("questions")
+                .select("*")
+                .eq("wallet_address", wallet_address);
             if (error)
                 throw error;
             const questions: Question[] = data.map((item) => {
@@ -144,7 +148,7 @@ class QuestionModel {
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
-                    user_id: item.user_id,
+                    wallet_address: item.wallet_address,
                     drep_id: item.drep_id
                 }
             });
@@ -156,7 +160,11 @@ class QuestionModel {
     }
     static async getQuestionsForDrepId(drep_id: string): Promise<Question[] | undefined> {
         try {
-            const { data, error } = await supabase.from("questions").select("*").eq("drep_id", drep_id);
+            const { data, error } = await
+                supabase
+                    .from("questions")
+                    .select("*")
+                    .eq("drep_id", drep_id);
             if (error)
                 throw error;
             const questions: Question[] = data.map((item) => {
@@ -164,7 +172,7 @@ class QuestionModel {
                     theme: item.theme,
                     question_title: item.question_title,
                     question_description: item.question_description,
-                    user_id: item.user_id,
+                    wallet_address: item.wallet_address,
                     drep_id: item.drep_id
                 }
             });

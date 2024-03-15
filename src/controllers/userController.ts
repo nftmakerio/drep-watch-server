@@ -22,14 +22,14 @@ const createUser = async (
                 .json({ success: false, message: "Missing required fields" });
         }
 
-        if(email) {
+        if (email) {
             // Check if the user already exists in Supabase by email
             const existingUserByEmail = await supabase
                 .from("users")
                 .select("wallet_address")
                 .eq("email", email)
                 .single();
-            
+
             // Handle cases where either email or wallet address is already in use
             if (existingUserByEmail.data) {
                 return res
@@ -79,8 +79,10 @@ const createUser = async (
 
 const getUser = async (req: Request, res: Response) => {
     try {
-        const user_id = parseInt(req.params.user_id);
-        const user = await UserModel.getUserById(user_id);
+        const wallet_address = req.params.wallet_address;
+        if (!wallet_address)
+            throw { status: 400, message: "no wallet address found in params" };
+        const user = await UserModel.getUserByWalletAddress(wallet_address);
         if (!user)
             throw { status: 400, message: "User does not exist" };
         const resBody = {

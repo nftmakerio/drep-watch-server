@@ -60,7 +60,7 @@ export const getQuestionByUser = async (
     {},
     {
       query: {
-        user_id: number;
+        wallet_address: string;
         drep_id: string;
       };
     }
@@ -68,16 +68,16 @@ export const getQuestionByUser = async (
   res: Response
 ) => {
   try {
-    const user_id = req.query.user_id;
+    const wallet_address = req.query.wallet_address;
     const drep_id = req.query.drep_id;
-    if (!user_id && !drep_id)
+    if (!wallet_address && !drep_id)
       throw { status: 400, message: "No query provided" };
 
-    const questions = user_id
-      ? await QuestionModel.getQuestionsByUserId(parseInt(user_id.toString()))
+    const questions = wallet_address
+      ? await QuestionModel.getQuestionsByUserId(wallet_address as string)
       : drep_id
-      ? await QuestionModel.getQuestionsForDrepId(drep_id as string)
-      : undefined;
+        ? await QuestionModel.getQuestionsForDrepId(drep_id as string)
+        : undefined;
 
     if (questions === undefined)
       throw { status: 400, message: "Could not fetch questions" };
