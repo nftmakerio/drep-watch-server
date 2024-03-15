@@ -19,7 +19,7 @@ export const getAnswer = async (req: Request, res: Response) => {
         const answer = await AnswerModel.getAnswerByQuestionId(questionId);
         if (!answer)
             throw { status: 400, message: "failed to get answer" };
-        res.status(200).json({ answer: answer });
+        res.status(200).json(answer);
     } catch (err: any) {
         res.status(err.status).json({ message: err.message });
     }

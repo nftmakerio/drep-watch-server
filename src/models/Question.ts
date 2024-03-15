@@ -149,7 +149,9 @@ class QuestionModel {
                     question_title: item.question_title,
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
-                    drep_id: item.drep_id
+                    drep_id: item.drep_id,
+                    id: item.id,
+
                 }
             });
             return questions;
@@ -173,7 +175,8 @@ class QuestionModel {
                     question_title: item.question_title,
                     question_description: item.question_description,
                     wallet_address: item.wallet_address,
-                    drep_id: item.drep_id
+                    drep_id: item.drep_id,
+                    id: item.id,
                 }
             });
             return questions;
