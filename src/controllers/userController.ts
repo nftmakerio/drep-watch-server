@@ -47,9 +47,10 @@ const createUser = async (
 
 
         if (existingUserByWallet.data) {
-            return res.status(409).json({
+            return res.status(200).json({
                 success: false,
                 message: "Wallet address already exists",
+                data: existingUserByWallet.data
             });
         }
 
