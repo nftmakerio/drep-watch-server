@@ -15,7 +15,7 @@ class AnswerModel {
     this.question_id = question_id;
     this.drep_id = drep_id;
   }
-  async save(): Promise<boolean | string> {
+  async save(): Promise<null | (Answer & { id: number })> {
     try {
       const newAnswer = {
         answer: this.answer,
@@ -25,9 +25,10 @@ class AnswerModel {
       const { data, error } = await supabase
         .from("answers")
         .insert(newAnswer)
+        .select()
         .single();
       if (error) throw error;
-      return true;
+      return data;
     } catch (err: any) {
       return err;
     }

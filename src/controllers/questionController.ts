@@ -1,15 +1,26 @@
 import { type Request, type Response } from "express";
 import { QuestionModel, Question } from "../models/Question";
+import supabase from "../supabase/db";
 
 export const createQuestion = async (req: Request, res: Response) => {
   try {
     const questionReq: Question = req.body;
     const newQuestion = new QuestionModel(questionReq);
-    const saveStatus = await newQuestion.save();
-    console.log(saveStatus);
-    if (saveStatus !== true)
+    const savedQuestion = await newQuestion.save();
+    if (!savedQuestion)
       throw { status: 400, message: "Could not save the question" };
-    res.status(201).json({ saveStatus, newQuestion });
+    const { error } = await supabase
+      .from("notifications")
+      .insert({
+        role: "Admin",
+        question_id: savedQuestion.uuid,
+        drep: savedQuestion.drep_id,
+        opened: false,
+        user: questionReq.wallet_address,
+      })
+      .single();
+    if (error) throw { status: 400, message: error.message };
+    res.status(201).json({ savedQuestion });
   } catch (err: any) {
     res.status(err.status).json({ message: err.message });
   }
@@ -75,8 +86,8 @@ export const getQuestionByUser = async (
     const questions = wallet_address
       ? await QuestionModel.getQuestionsByUserId(wallet_address as string)
       : drep_id
-        ? await QuestionModel.getQuestionsForDrepId(drep_id as string)
-        : undefined;
+      ? await QuestionModel.getQuestionsForDrepId(drep_id as string)
+      : undefined;
 
     if (questions === undefined)
       throw { status: 400, message: "Could not fetch questions" };

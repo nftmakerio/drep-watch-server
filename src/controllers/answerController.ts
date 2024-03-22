@@ -1,14 +1,31 @@
 import type { Request, Response } from "express";
 import { Answer, AnswerModel } from "../models/Answer";
+import supabase from "../supabase/db";
+import { QuestionModel } from "../models/Question";
 
 export const postAnswer = async (req: Request, res: Response) => {
   try {
     const answerBody: Answer = req.body;
     const answer = new AnswerModel(answerBody);
-    const saveStatus = await answer.save();
-    if (saveStatus !== true)
+    const savedAnswer = await answer.save();
+    if (!savedAnswer)
       throw { status: 400, message: "Failed to save the answer" };
-    res.status(201).json(answer);
+    const question = await QuestionModel.getQuestionById(
+      savedAnswer.question_id as unknown as string
+    );
+    if (!question) throw { status: 400, message: "Invalid questionId" };
+    const { error } = await supabase
+      .from("notifications")
+      .insert({
+        role: "User",
+        question_id: savedAnswer.question_id,
+        drep: savedAnswer.drep_id,
+        opened: false,
+        user: question.wallet_address,
+      })
+      .single();
+    if (error) throw { status: 400, message: error.message };
+    res.status(201).json({ savedAnswer });
   } catch (err: any) {
     res.status(err.status).json({ message: err.message });
   }

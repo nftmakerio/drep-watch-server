@@ -24,7 +24,7 @@ class QuestionModel {
         this.wallet_address = wallet_address;
         this.drep_id = drep_id;
     }
-    async save(): Promise<boolean | string> {
+    async save(): Promise<null | (Question & { uuid: string })> {
         try {
             const newQuestion = {
                 theme: this.theme,
@@ -33,10 +33,10 @@ class QuestionModel {
                 wallet_address: this.wallet_address,
                 drep_id: this.drep_id
             }
-            const { data, error } = await supabase.from("questions").insert(newQuestion).single();
+            const { data, error } = await supabase.from("questions").insert(newQuestion).select().single();
             if (error)
                 throw error;
-            return true;
+            return data;
         } catch (err: any) {
             return err;
         }
