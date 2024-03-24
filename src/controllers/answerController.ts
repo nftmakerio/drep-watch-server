@@ -11,14 +11,14 @@ export const postAnswer = async (req: Request, res: Response) => {
     if (!savedAnswer)
       throw { status: 400, message: "Failed to save the answer" };
     const question = await QuestionModel.getQuestionById(
-      savedAnswer.question_id as unknown as string
+      savedAnswer.uuid as unknown as string
     );
     if (!question) throw { status: 400, message: "Invalid questionId" };
     const { error } = await supabase
       .from("notifications")
       .insert({
         role: "User",
-        question_id: savedAnswer.question_id,
+        question_id: savedAnswer.uuid,
         drep: savedAnswer.drep_id,
         opened: false,
         user: question.wallet_address,

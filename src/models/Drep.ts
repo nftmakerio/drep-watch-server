@@ -1,13 +1,13 @@
 import supabase from "../supabase/db";
 
 interface Drep {
-    email: string;
-    name: string;
+    email: string | null;
+    name: string | null;
     drep_id: string;
 }
 class DrepModel {
-    email: string;
-    name: string;
+    email: string | null;
+    name: string | null;
     drep_id: string;
     constructor({ email, name, drep_id }: Drep) {
         this.email = email;

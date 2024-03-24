@@ -2,29 +2,33 @@ import supabase from "../supabase/db";
 
 interface Answer {
   answer: string;
-  question_id: number;
+  uuid: string;
   drep_id: string;
   drep_name?: string | undefined;
 }
 class AnswerModel {
   private answer: string;
-  private question_id: number;
+  private uuid: string;
   private drep_id: string;
-  constructor({ answer, question_id, drep_id }: Answer) {
+  constructor({ answer, uuid, drep_id }: Answer) {
     this.answer = answer;
-    this.question_id = question_id;
+    this.uuid = uuid;
     this.drep_id = drep_id;
   }
-  async save(): Promise<null | (Answer & { id: number })> {
+  async save(): Promise<{
+    answer: string;
+    drep_id: string | null;
+    id: number;
+    uuid: string | null;
+  } | undefined> {
     try {
-      const newAnswer = {
-        answer: this.answer,
-        question_id: this.question_id,
-        drep_id: this.drep_id,
-      };
       const { data, error } = await supabase
         .from("answers")
-        .insert(newAnswer)
+        .insert({
+          answer: this.answer,
+          drep_id: this.drep_id,
+          question_id: this.uuid,
+        })
         .select()
         .single();
       if (error) throw error;
@@ -41,20 +45,19 @@ class AnswerModel {
       const { data, error } = await supabase
         .from("answers")
         .select("*")
-        .eq("question_id", questionId);
-
-      console.log(questionId, "test 1134");
+        .eq("uuid", questionId)
+        .maybeSingle();
 
       if (error) throw error;
-      if (!data || data.length <= 0) return undefined;
+      if (!data?.drep_id) return undefined;
 
       const { data: drepData } = await supabase
         .from("dreps")
         .select("name")
-        .eq("drep_id", data[0].drep_id)
+        .eq("drep_id", data.drep_id)
         .single();
 
-      return { ...data[0], drep_name: drepData?.name } as Answer & {
+      return { ...data, drep_name: drepData?.name } as Answer & {
         id: number;
       };
     } catch (err: any) {
@@ -90,6 +93,7 @@ class AnswerModel {
       const answers: (Answer & { id: number })[] = [];
 
       for (const item of data) {
+        if (!item.drep_id || !item.uuid) continue;
         const { data: drepData } = await supabase
           .from("dreps")
           .select("name")
@@ -99,7 +103,7 @@ class AnswerModel {
         answers.push({
           id: item.id,
           answer: item.answer,
-          question_id: item.question_id,
+          uuid: item.uuid,
           drep_id: item.drep_id,
           drep_name: drepData?.name,
         });

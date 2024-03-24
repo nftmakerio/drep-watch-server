@@ -7,14 +7,14 @@ interface Question {
     theme: string;
     question_title: string;
     question_description: string;
-    wallet_address: string;
+    wallet_address: string | null;
     drep_id: string;
 }
 class QuestionModel {
     private theme: string;
     private question_title: string;
     private question_description: string;
-    private wallet_address: string;
+    private wallet_address: string | null;
     private drep_id: string;
 
     constructor({ theme, question_title, question_description, wallet_address, drep_id }: Question) {
