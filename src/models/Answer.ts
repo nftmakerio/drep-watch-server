@@ -15,22 +15,28 @@ class AnswerModel {
     this.uuid = uuid;
     this.drep_id = drep_id;
   }
-  async save(): Promise<{
-    answer: string;
-    drep_id: string | null;
-    id: number;
-    uuid: string | null;
-  } | undefined> {
+  async save(): Promise<
+    | {
+        answer: string;
+        drep_id: string | null;
+        id: number;
+        uuid: string | null;
+      }
+    | undefined
+  > {
     try {
       const { data, error } = await supabase
         .from("answers")
-        .upsert({
-          answer: this.answer,
-          drep_id: this.drep_id,
-          uuid: this.uuid,
-        },{
-          onConflict: "uuid"
-        })
+        .upsert(
+          {
+            answer: this.answer,
+            drep_id: this.drep_id,
+            uuid: this.uuid,
+          },
+          {
+            onConflict: "uuid",
+          }
+        )
         .select()
         .single();
       if (error) throw error;
@@ -87,7 +93,8 @@ class AnswerModel {
       const { data, error } = await supabase
         .from("answers")
         .select("*")
-        .order("id", { ascending: false })
+        .order("id", { ascending: false });
+
       if (error) throw error;
       if (!data) return undefined;
 

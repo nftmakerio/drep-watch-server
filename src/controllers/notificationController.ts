@@ -41,7 +41,11 @@ export const getNotifications = async (req: Request, res: Response) => {
       query.eq("drep", drepId).eq("role", "Admin");
     }
 
-    const { data, error } = await query.returns<Notification[]>();
+    const { data, error } = await query
+      .order("id", {
+        ascending: false,
+      })
+      .returns<Notification[]>();
     console.log(error);
     if (!data || error)
       throw {
