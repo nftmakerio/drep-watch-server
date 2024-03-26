@@ -13,7 +13,7 @@ export const createQuestion = async (req: Request, res: Response) => {
       .from("notifications")
       .insert({
         role: "Admin",
-        question_id: savedQuestion.uuid,
+        uuid: savedQuestion.uuid,
         drep: savedQuestion.drep_id,
         opened: false,
         user: questionReq.wallet_address,

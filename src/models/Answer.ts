@@ -27,7 +27,7 @@ class AnswerModel {
         .insert({
           answer: this.answer,
           drep_id: this.drep_id,
-          question_id: this.uuid,
+          uuid: this.uuid,
         })
         .select()
         .single();

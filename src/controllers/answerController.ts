@@ -18,7 +18,7 @@ export const postAnswer = async (req: Request, res: Response) => {
       .from("notifications")
       .insert({
         role: "User",
-        question_id: savedAnswer.uuid,
+        uuid: savedAnswer.uuid,
         drep: savedAnswer.drep_id,
         opened: false,
         user: question.wallet_address,

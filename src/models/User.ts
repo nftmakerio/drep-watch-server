@@ -42,5 +42,21 @@ class UserModel {
       return err;
     }
   }
+  static async getIsUserAdmin(
+    wallet_address: string
+  ): Promise<User | undefined> {
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select("name,email,wallet_address", { count: 'exact', head: true })
+        .eq("wallet_address", wallet_address)
+        .single();
+      if (error) throw error;
+      if (!data) return undefined;
+      return data as User;
+    } catch (err: any) {
+      return err;
+    }
+  }
 }
 export { User, UserModel };
