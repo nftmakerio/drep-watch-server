@@ -24,10 +24,12 @@ class AnswerModel {
     try {
       const { data, error } = await supabase
         .from("answers")
-        .insert({
+        .upsert({
           answer: this.answer,
           drep_id: this.drep_id,
           uuid: this.uuid,
+        },{
+          onConflict: "uuid"
         })
         .select()
         .single();
@@ -86,7 +88,6 @@ class AnswerModel {
         .from("answers")
         .select("*")
         .order("id", { ascending: false })
-        .limit(limit);
       if (error) throw error;
       if (!data) return undefined;
 

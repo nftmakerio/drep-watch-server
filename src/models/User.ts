@@ -5,6 +5,9 @@ interface User {
   email: string;
   name: string;
   wallet_address: string;
+  is_admin?: {
+    drep_id: string;
+  };
 }
 class UserModel {
   email: string;
@@ -24,9 +27,12 @@ class UserModel {
         .select("name,email,wallet_address")
         .eq("wallet_address", wallet_address)
         .single();
+
+      const isAdmin = await this.getIsUserAdmin(wallet_address);
+
       if (error) throw error;
       if (!data) return undefined;
-      return data as User;
+      return { ...data, is_admin: isAdmin } as User;
     } catch (err: any) {
       return err;
     }
@@ -42,18 +48,23 @@ class UserModel {
       return err;
     }
   }
-  static async getIsUserAdmin(
-    wallet_address: string
-  ): Promise<User | undefined> {
+  static async getIsUserAdmin(wallet_address: string): Promise<
+    | {
+        drep_id: string;
+      }
+    | undefined
+  > {
     try {
       const { data, error } = await supabase
-        .from("users")
-        .select("name,email,wallet_address", { count: 'exact', head: true })
+        .from("dreps")
+        .select("drep_id")
         .eq("wallet_address", wallet_address)
         .single();
       if (error) throw error;
       if (!data) return undefined;
-      return data as User;
+      return data as {
+        drep_id: string;
+      };
     } catch (err: any) {
       return err;
     }
