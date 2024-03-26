@@ -52,7 +52,7 @@ class UserModel {
     | {
         drep_id: string;
       }
-    | undefined
+    | null
   > {
     try {
       const { data, error } = await supabase
@@ -61,12 +61,12 @@ class UserModel {
         .eq("wallet_address", wallet_address)
         .single();
       if (error) throw error;
-      if (!data) return undefined;
+      if (!data) return null;
       return data as {
         drep_id: string;
       };
     } catch (err: any) {
-      return err;
+      return null;
     }
   }
 }
