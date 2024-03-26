@@ -119,7 +119,7 @@ class QuestionModel {
                 .from("questions")
                 .select("*")
                 .order("id", { ascending: false })
-                .limit(limit);
+                // .limit(limit);
 
             if (error) throw error;
             if (!data) return undefined;
