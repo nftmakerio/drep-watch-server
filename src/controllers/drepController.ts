@@ -123,12 +123,13 @@ const getDreps = async (req: Request, res: Response) => {
 const getDrepProposals = async (req: Request, res: Response) => {
   try {
     const drep_id = req.params.drep_id as string;
+    const fund_no = req.query.fund as string;
 
-    console.log(drep_id)
+    console.log(fund_no)
 
-    if(!drep_id) throw { status: 400, message: "No Drep ID found" }
+    if(!drep_id || !fund_no) throw { status: 400, message: "No Drep ID found" }
 
-    const dreps = await DrepModel.getDrepProposals(drep_id);
+    const dreps = await DrepModel.getDrepProposals(drep_id, parseInt(fund_no));
 
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };

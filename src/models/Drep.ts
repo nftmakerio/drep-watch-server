@@ -58,7 +58,10 @@ class DrepModel {
       return err;
     }
   }
-  static async getDrepProposals(address: string): Promise<
+  static async getDrepProposals(
+    address: string,
+    fund_no: number
+  ): Promise<
     | {
         ada_amount: string | null;
         agreed: string[] | null;
@@ -77,18 +80,22 @@ class DrepModel {
       const { data: agreed_proposals, error: agreed_error } = await supabase
         .from("proposals")
         .select("*")
+        .eq("fund_no", fund_no)
         .contains("agreed", [address]);
 
       const { data: not_agreed_proposals, error: not_agreed_error } =
         await supabase
           .from("proposals")
           .select("*")
+          .eq("fund_no", fund_no)
           .contains("not_agreed", [address]);
 
-      console.log(agreed_proposals?.length, not_agreed_proposals?.length);
+      console.log(
+        fund_no,
+        address
+      );
 
       if (not_agreed_error || agreed_error) throw not_agreed_error;
-      if (!agreed_proposals) return undefined;
       return [...agreed_proposals, ...not_agreed_proposals];
     } catch (err: any) {
       return err;
