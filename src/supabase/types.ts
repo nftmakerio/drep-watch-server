@@ -125,9 +125,11 @@ export type Database = {
         Row: {
           ada_amount: string | null
           agreed: string[] | null
+          catalyst_link: string | null
           category: string | null
           created_at: string
           description: string | null
+          fund_no: number | null
           id: string
           not_agreed: string[] | null
           title: string | null
@@ -135,9 +137,11 @@ export type Database = {
         Insert: {
           ada_amount?: string | null
           agreed?: string[] | null
+          catalyst_link?: string | null
           category?: string | null
           created_at?: string
           description?: string | null
+          fund_no?: number | null
           id?: string
           not_agreed?: string[] | null
           title?: string | null
@@ -145,9 +149,11 @@ export type Database = {
         Update: {
           ada_amount?: string | null
           agreed?: string[] | null
+          catalyst_link?: string | null
           category?: string | null
           created_at?: string
           description?: string | null
+          fund_no?: number | null
           id?: string
           not_agreed?: string[] | null
           title?: string | null
