@@ -42,11 +42,11 @@ export const getNotifications = async (req: Request, res: Response) => {
     }
 
     const { data, error } = await query
-      .order("id", {
+      .order("created_at", {
         ascending: false,
       })
       .returns<Notification[]>();
-    console.log(error);
+    console.log(data?.length);
     if (!data || error)
       throw {
         status: 400,
@@ -61,7 +61,7 @@ export const getNotifications = async (req: Request, res: Response) => {
     res.status(200).json({
       notifications: data.map((item1) => {
         const match = (answers ?? []).find(
-          (item2) => item2.uuid === item1.uuid
+          (item2) => item2?.uuid === item1?.uuid
         );
         return { ...item1, ...match };
       }),
