@@ -8,4 +8,4 @@ proposalsRoute.post("/create", createProposal);
 proposalsRoute.post("/vote", voteOnProposal);
 
 
-export default proposalsRoute;
+export default proposalsRoute;  

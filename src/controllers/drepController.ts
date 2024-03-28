@@ -119,4 +119,30 @@ const getDreps = async (req: Request, res: Response) => {
     res.status(err.status).json({ message: err.message });
   }
 };
-export { createDrep, getDrepProfile, getDrepSearch, getDreps };
+
+const getDrepProposals = async (req: Request, res: Response) => {
+  try {
+    const drep_id = req.params.drep_id as string;
+
+    console.log(drep_id)
+
+    if(!drep_id) throw { status: 400, message: "No Drep ID found" }
+
+    const dreps = await DrepModel.getDrepProposals(drep_id);
+
+    if (!dreps) {
+      throw { status: 404, message: "No dreps found" };
+    }
+
+    res.status(200).json(dreps);
+  } catch (err: any) {
+    res.status(err.status).json({ message: err.message });
+  }
+};
+export {
+  createDrep,
+  getDrepProfile,
+  getDrepSearch,
+  getDreps,
+  getDrepProposals,
+};

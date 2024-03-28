@@ -39,7 +39,7 @@ export type Database = {
           {
             foreignKeyName: "public_answers_question_id_fkey"
             columns: ["uuid"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "questions"
             referencedColumns: ["uuid"]
           },
@@ -51,18 +51,21 @@ export type Database = {
           drep_id: string
           email: string | null
           name: string
+          wallet_address: string | null
         }
         Insert: {
           created_at?: string
           drep_id?: string
           email?: string | null
           name: string
+          wallet_address?: string | null
         }
         Update: {
           created_at?: string
           drep_id?: string
           email?: string | null
           name?: string
+          wallet_address?: string | null
         }
         Relationships: []
       }
@@ -117,6 +120,39 @@ export type Database = {
             referencedColumns: ["wallet_address"]
           },
         ]
+      }
+      proposals: {
+        Row: {
+          ada_amount: string | null
+          agreed: string[] | null
+          category: string | null
+          created_at: string
+          description: string | null
+          id: string
+          not_agreed: string[] | null
+          title: string | null
+        }
+        Insert: {
+          ada_amount?: string | null
+          agreed?: string[] | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          not_agreed?: string[] | null
+          title?: string | null
+        }
+        Update: {
+          ada_amount?: string | null
+          agreed?: string[] | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          not_agreed?: string[] | null
+          title?: string | null
+        }
+        Relationships: []
       }
       questions: {
         Row: {
