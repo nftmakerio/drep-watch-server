@@ -64,18 +64,21 @@ const createDrep = async (
 const getDrepProfile = async (req: Request, res: Response) => {
   try {
     const { drep_id } = req.body;
+    
     if (!drep_id) throw { status: 400, message: "Request body not correct" };
-    const drep = await DrepModel.getDrep(drep_id);
-    if (!drep) throw { status: 400, message: "Drep does not exist" };
+    
     const drepQuestions = await QuestionModel.getDrepQuestions(drep_id);
+    
     console.log(drepQuestions);
+    
     if (drepQuestions === undefined)
       throw { status: 400, message: "Could not fetch questions" };
     const drepAnswers = await AnswerModel.getDrepAnswers(drep_id);
+    
     if (drepAnswers === undefined)
       throw { status: 400, message: "Could not fetch answers" };
+    
     const resBody = {
-      ...drep,
       questionsAsked: drepQuestions,
       questionsAnswers: drepAnswers,
     }; // response Body
@@ -125,9 +128,10 @@ const getDrepProposals = async (req: Request, res: Response) => {
     const drep_id = req.params.drep_id as string;
     const fund_no = req.query.fund as string;
 
-    console.log(fund_no)
+    console.log(fund_no);
 
-    if(!drep_id || !fund_no) throw { status: 400, message: "No Drep ID found" }
+    if (!drep_id || !fund_no)
+      throw { status: 400, message: "No Drep ID found" };
 
     const dreps = await DrepModel.getDrepProposals(drep_id, parseInt(fund_no));
 

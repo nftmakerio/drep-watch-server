@@ -59,13 +59,7 @@ class AnswerModel {
       if (error) throw error;
       if (!data?.drep_id) return undefined;
 
-      const { data: drepData } = await supabase
-        .from("dreps")
-        .select("name")
-        .eq("drep_id", data.drep_id)
-        .single();
-
-      return { ...data, drep_name: drepData?.name } as Answer & {
+      return { ...data, drep_name: data.drep_id } as Answer & {
         id: number;
       };
     } catch (err: any) {
@@ -102,18 +96,13 @@ class AnswerModel {
 
       for (const item of data) {
         if (!item.drep_id || !item.uuid) continue;
-        const { data: drepData } = await supabase
-          .from("dreps")
-          .select("name")
-          .eq("drep_id", item.drep_id)
-          .single();
 
         answers.push({
           id: item.id,
           answer: item.answer,
           uuid: item.uuid,
           drep_id: item.drep_id,
-          drep_name: drepData?.name,
+          drep_name: item.drep_id,
         });
       }
 
