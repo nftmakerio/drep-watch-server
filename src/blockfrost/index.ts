@@ -1,5 +1,7 @@
-import { BlockFrostAPI } from '@blockfrost/blockfrost-js'; // using import syntax
+import { BlockFrostAPI } from "@blockfrost/blockfrost-js"; // using import syntax
+import dotenv from "dotenv";
+dotenv.config();
 
 export const blockfrost = new BlockFrostAPI({
-  projectId: 'mainnetFkdHcirrI4dfLcXPSbILJJy9ToANk4uY'
+  projectId: process.env.BLOCKFORST_PROJECT_ID ?? "",
 });
