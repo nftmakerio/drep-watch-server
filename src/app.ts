@@ -29,3 +29,5 @@ app.use("/api/v1/notifications", notificationRoutes);
 app.listen(process.env.PORT || 8080, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
+
+export default app;
