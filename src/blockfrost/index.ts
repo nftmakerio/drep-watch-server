@@ -3,5 +3,5 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const blockfrost = new BlockFrostAPI({
-  projectId: process.env.BLOCKFORST_PROJECT_ID ?? "",
+  projectId: process.env.BLOCKFROST_PROJECT_ID ?? "",
 });

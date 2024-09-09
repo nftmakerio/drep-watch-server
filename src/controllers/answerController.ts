@@ -10,6 +10,7 @@ export const postAnswer = async (req: Request, res: Response) => {
     const savedAnswer = await answer.save();
     if (!savedAnswer)
       throw { status: 400, message: "Failed to save the answer" };
+
     const question = await QuestionModel.getQuestionById(
       savedAnswer.uuid as unknown as string
     );

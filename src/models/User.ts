@@ -1,3 +1,4 @@
+import axios from "axios";
 import { blockfrost } from "../blockfrost";
 import supabase from "../supabase/db";
 
@@ -5,9 +6,7 @@ interface User {
   email: string;
   name: string;
   wallet_address: string;
-  is_admin?: {
-    drep_id: string;
-  };
+  is_admin: boolean;
 }
 class UserModel {
   email: string;
@@ -19,7 +18,8 @@ class UserModel {
     this.wallet_address = wallet_address;
   }
   static async getUserByWalletAddress(
-    wallet_address: string
+    wallet_address: string,
+    drep_id: string
   ): Promise<User | undefined> {
     try {
       const { data, error } = await supabase
@@ -28,7 +28,7 @@ class UserModel {
         .eq("wallet_address", wallet_address)
         .single();
 
-      const isAdmin = await this.getIsUserAdmin(wallet_address);
+      const isAdmin = await this.getIsUserAdmin(drep_id);
 
       if (error) throw error;
       if (!data) return undefined;
@@ -48,25 +48,24 @@ class UserModel {
       return err;
     }
   }
-  static async getIsUserAdmin(wallet_address: string): Promise<
-    | {
-        drep_id: string;
-      }
-    | null
-  > {
+  static async getIsUserAdmin(drep_id: string): Promise<Boolean> {
     try {
-      const { data, error } = await supabase
-        .from("dreps")
-        .select("drep_id")
-        .eq("wallet_address", wallet_address)
-        .single();
-      if (error) throw error;
-      if (!data) return null;
-      return data as {
-        drep_id: string;
-      };
+      const { data } = await axios.get<{
+        active: boolean;
+      }>(
+        `https://cardano-mainnet.blockfrost.io/api/v0/governance/dreps/${drep_id}`,
+        {
+          headers: {
+            project_id: process.env.BLOCKFROST_PROJECT_ID,
+          },
+        }
+      );
+
+      // if (error) throw error;
+      if (!data) return false;
+      return data.active;
     } catch (err: any) {
-      return null;
+      return false;
     }
   }
 }

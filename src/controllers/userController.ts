@@ -81,10 +81,12 @@ const createUser = async (
 
 const getUser = async (req: Request, res: Response) => {
   try {
-    const wallet_address = req.params.wallet_address;
-    if (!wallet_address)
-      throw { status: 400, message: "no wallet address found in params" };
-    const user = await UserModel.getUserByWalletAddress(wallet_address);
+    const wallet_address = req.body.wallet_address;
+    const drep_id = req.body.wallet_address;
+
+    if (!wallet_address || !drep_id)
+      throw { status: 400, message: "no wallet address or drep_id found in params" };
+    const user = await UserModel.getUserByWalletAddress(wallet_address, drep_id);
     if (!user) throw { status: 400, message: "User does not exist" };
 
     const delegatedTo = await UserModel.getUserDelegatedTo(wallet_address);

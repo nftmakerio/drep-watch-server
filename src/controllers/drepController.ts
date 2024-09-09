@@ -64,23 +64,28 @@ const createDrep = async (
 const getDrepProfile = async (req: Request, res: Response) => {
   try {
     const { drep_id } = req.body;
-    
+
     if (!drep_id) throw { status: 400, message: "Request body not correct" };
-    
+
     const drepQuestions = await QuestionModel.getDrepQuestions(drep_id);
-    
-    console.log(drepQuestions);
-    
+
     if (drepQuestions === undefined)
       throw { status: 400, message: "Could not fetch questions" };
     const drepAnswers = await AnswerModel.getDrepAnswers(drep_id);
-    
+
     if (drepAnswers === undefined)
       throw { status: 400, message: "Could not fetch answers" };
-    
+
+    const drepMetadata = await DrepModel.getDrep(drep_id);
+
+    if (drepMetadata === undefined)
+      throw { status: 400, message: "Could not fetch drep" };
+
     const resBody = {
       questionsAsked: drepQuestions,
       questionsAnswers: drepAnswers,
+      image: drepMetadata.json_metadata?.body?.image?.contentUrl,
+      name: drepMetadata.json_metadata?.body?.givenName["@value"],
     }; // response Body
     res.status(200).json(resBody);
   } catch (err: any) {
@@ -108,16 +113,18 @@ const getDrepSearch = async (req: Request, res: Response) => {
 };
 const getDreps = async (req: Request, res: Response) => {
   try {
-    let limit = 6;
-    if (!!parseInt(req.query.limit as string)) {
-      limit = parseInt(req.query.limit as string);
+    let page = 1;
+    if (!!parseInt(req.query.page as string)) {
+      page = parseInt(req.query.page as string);
     }
-    const dreps = await DrepModel.getDreps(limit);
+    const dreps = await DrepModel.getDreps(page);
     console.log(dreps);
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
     }
-    res.status(200).json(dreps);
+    res
+      .status(200)
+      .json({ dreps, nextPage: dreps.length < 100 ? null : page + 1 });
   } catch (err: any) {
     res.status(err.status).json({ message: err.message });
   }
@@ -126,14 +133,10 @@ const getDreps = async (req: Request, res: Response) => {
 const getDrepProposals = async (req: Request, res: Response) => {
   try {
     const drep_id = req.params.drep_id as string;
-    const fund_no = req.query.fund as string;
 
-    console.log(fund_no);
+    if (!drep_id) throw { status: 400, message: "No Drep ID found" };
 
-    if (!drep_id || !fund_no)
-      throw { status: 400, message: "No Drep ID found" };
-
-    const dreps = await DrepModel.getDrepProposals(drep_id, parseInt(fund_no));
+    const dreps = await DrepModel.getDrepProposals(drep_id)
 
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
