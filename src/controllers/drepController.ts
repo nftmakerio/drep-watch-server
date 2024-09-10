@@ -77,15 +77,14 @@ const getDrepProfile = async (req: Request, res: Response) => {
       throw { status: 400, message: "Could not fetch answers" };
 
     const drepMetadata = await DrepModel.getDrep(drep_id);
-
-    if (drepMetadata === undefined)
-      throw { status: 400, message: "Could not fetch drep" };
+    // if (drepMetadata === undefined)
+    //   throw { status: 400, message: "Could not fetch drep" };
 
     const resBody = {
       questionsAsked: drepQuestions,
       questionsAnswers: drepAnswers,
-      image: drepMetadata.json_metadata?.body?.image?.contentUrl,
-      name: drepMetadata.json_metadata?.body?.givenName["@value"],
+      image: drepMetadata?.json_metadata?.body?.image?.contentUrl,
+      name: drepMetadata?.json_metadata?.body?.givenName["@value"],
     }; // response Body
     res.status(200).json(resBody);
   } catch (err: any) {
