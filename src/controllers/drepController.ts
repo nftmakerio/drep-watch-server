@@ -98,12 +98,13 @@ const getDrepSearch = async (req: Request, res: Response) => {
       throw { status: 404, message: "No Query Provided" };
     }
     if (search_query === "") {
-      throw {status:404,message:"No Query Provided"}
+      throw { status: 404, message: "No Query Provided" }
     }
     const dreps = await DrepModel.getDrepByQuery(search_query);
     console.log(dreps);
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
+    }
   } catch (err: any) {
 
     res.status(err.status).json({ message: err.message });
