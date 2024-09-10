@@ -98,15 +98,14 @@ const getDrepSearch = async (req: Request, res: Response) => {
       throw { status: 404, message: "No Query Provided" };
     }
     if (search_query === "") {
-      res.status(200).json([]);
+      throw {status:404,message:"No Query Provided"}
     }
     const dreps = await DrepModel.getDrepByQuery(search_query);
     console.log(dreps);
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
-    }
-    res.status(200).json(dreps);
   } catch (err: any) {
+
     res.status(err.status).json({ message: err.message });
   }
 };
@@ -135,7 +134,7 @@ const getDrepProposals = async (req: Request, res: Response) => {
 
     if (!drep_id) throw { status: 400, message: "No Drep ID found" };
 
-    const dreps = await DrepModel.getDrepProposals(drep_id)
+    const dreps = await DrepModel.getDrepProposals(drep_id);
 
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
