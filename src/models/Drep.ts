@@ -150,14 +150,6 @@ class DrepModel {
         );
       }
 
-      fs.writeFile("data.json", JSON.stringify(response), (err) => {
-        if (err) {
-          console.error("Error writing file:", err);
-        } else {
-          console.log("JSON data saved successfully!");
-        }
-      });
-
       if (!data) return undefined;
 
       return response.concat(
