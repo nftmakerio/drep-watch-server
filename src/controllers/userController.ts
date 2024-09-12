@@ -3,8 +3,6 @@ import supabase from "../supabase/db";
 import { UserModel } from "../models/User";
 
 interface UserRequestBody {
-  email: string;
-  name: string;
   wallet_address: string;
 }
 
@@ -13,29 +11,13 @@ const createUser = async (
   res: Response
 ) => {
   try {
-    const { email, name, wallet_address } = req.body;
+    const { wallet_address } = req.body;
 
     // Validate input
     if (!wallet_address) {
       return res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
-    }
-
-    if (email) {
-      // Check if the user already exists in Supabase by email
-      const existingUserByEmail = await supabase
-        .from("users")
-        .select("wallet_address")
-        .eq("email", email)
-        .single();
-
-      // Handle cases where either email or wallet address is already in use
-      if (existingUserByEmail.data) {
-        return res
-          .status(409)
-          .json({ success: false, message: "Email already exists" });
-      }
     }
 
     // Check if the user already exists in Supabase by wallet address
@@ -56,7 +38,7 @@ const createUser = async (
     // Create a new user in Supabase
     const { error } = await supabase
       .from("users")
-      .insert([{ email, name, wallet_address }])
+      .insert([{ wallet_address }])
       .select();
 
     if (error) {
@@ -85,8 +67,14 @@ const getUser = async (req: Request, res: Response) => {
     const drep_id = req.body.wallet_address;
 
     if (!wallet_address || !drep_id)
-      throw { status: 400, message: "no wallet address or drep_id found in params" };
-    const user = await UserModel.getUserByWalletAddress(wallet_address, drep_id);
+      throw {
+        status: 400,
+        message: "no wallet address or drep_id found in params",
+      };
+    const user = await UserModel.getUserByWalletAddress(
+      wallet_address,
+      drep_id
+    );
     if (!user) throw { status: 400, message: "User does not exist" };
 
     const delegatedTo = await UserModel.getUserDelegatedTo(wallet_address);
@@ -96,7 +84,7 @@ const getUser = async (req: Request, res: Response) => {
       email: user.email,
       pool_id: delegatedTo?.pool_id,
       active: delegatedTo?.active,
-      is_admin: user.is_admin
+      is_admin: user.is_admin,
     };
     res.status(200).json(resBody);
   } catch (err: any) {
