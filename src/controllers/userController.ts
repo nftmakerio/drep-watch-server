@@ -85,6 +85,7 @@ const getUser = async (req: Request, res: Response) => {
       pool_id: delegatedTo?.pool_id,
       active: delegatedTo?.active,
       is_admin: user.is_admin,
+      delegatedTo
     };
     res.status(200).json(resBody);
   } catch (err: any) {
