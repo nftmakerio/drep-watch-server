@@ -1,7 +1,5 @@
 import supabase from "../supabase/db";
-import short from "short-uuid";
 
-const translator = short();
 
 interface Question {
   theme: string;

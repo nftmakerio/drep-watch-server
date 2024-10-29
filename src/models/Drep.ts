@@ -1,7 +1,4 @@
 import axios from "axios";
-import { blockfrost } from "../blockfrost";
-import supabase from "../supabase/db";
-import fs from "fs";
 
 interface Drep {
   email: string | null;
@@ -23,47 +20,61 @@ class DrepModel {
   static async getDrep(id: string): Promise<
     | {
         drep_id: string;
-        json_metadata: {
-          body: {
-            image: {
-              contentUrl: string;
-            };
-            givenName: {
-              "@value": string;
-            };
+        body: {
+          image: {
+            contentUrl: string;
+          };
+          givenName: {
+            "@value": string;
           };
         };
       }
     | undefined
   > {
     try {
-      const { data } = await axios.get<{
+      interface DrepMetadataResponse {
         drep_id: string;
-        json_metadata: {
-          body: {
-            image: {
-              contentUrl: string;
-            };
-            givenName: {
-              "@value": string;
-            };
-          };
-        };
-      }>(
-        `https://cardano-mainnet.blockfrost.io/api/v0/governance/dreps/${id}/metadata`,
+        hex: string;
+        has_script: boolean;
+        url: string;
+        hash: string;
+        json: any;
+        bytes: any;
+        warning: any;
+        language: any;
+        comment: any;
+        is_valid: boolean;
+      }
+
+      const { data } = await axios.post<DrepMetadataResponse[]>(
+        `https://api.koios.rest/api/v1/drep_metadata`,
         {
-          headers: {
-            project_id: process.env.BLOCKFROST_PROJECT_ID,
-          },
+          _drep_ids: [id],
         }
       );
 
-      console.log(data.json_metadata);
+      if (!data?.[0] || !data[0].url) return undefined;
 
-      if (!data) return undefined;
-      return data;
+      const url = data[0].url;
+
+      if (url) {
+        const urlResponse = await axios.get(url);
+        if (urlResponse.status === 200) {
+          const urlData = urlResponse.data.body;
+          return {
+            body: {
+              givenName: { "@value": urlData.givenName },
+              image: { contentUrl: urlData.image?.contentUrl },
+            },
+            drep_id: id,
+          };
+        }
+      }
+      return undefined;
     } catch (err: any) {
       console.log(err);
+
+      return undefined;
     }
   }
 
@@ -95,8 +106,8 @@ class DrepModel {
       return {
         drep_id: data.drep_id,
         active: data?.active,
-        givenName: drepData?.json_metadata?.body?.givenName["@value"],
-        image: drepData?.json_metadata?.body?.image?.contentUrl,
+        givenName: drepData?.body?.givenName["@value"],
+        image: drepData?.body?.image?.contentUrl,
       };
     } catch (err: any) {
       return err;
@@ -144,8 +155,8 @@ class DrepModel {
             .filter((result) => result !== undefined && result !== null)
             .map((result) => ({
               drep_id: result?.drep_id,
-              givenName: result?.json_metadata?.body?.givenName["@value"],
-              image: result?.json_metadata.body?.image?.contentUrl,
+              givenName: result?.body?.givenName["@value"],
+              image: result?.body?.image?.contentUrl,
             }))
         );
       }
@@ -186,7 +197,7 @@ class DrepModel {
         tx_hash: string;
         proposal_procedures: ProposalProcedure[];
       }
-      
+
       interface MetaUrlResponse {
         body: {
           title: string;
@@ -225,9 +236,13 @@ class DrepModel {
         }
       );
 
-
       const metaUrls = txInfoResponse.data.flatMap((tx) =>
-        tx.proposal_procedures.map((procedure) => ({meta_url: procedure.meta_url, vote: response.data.find((vote) => vote.proposal_tx_hash === tx.tx_hash)?.vote}))
+        tx.proposal_procedures.map((procedure) => ({
+          meta_url: procedure.meta_url,
+          vote: response.data.find(
+            (vote) => vote.proposal_tx_hash === tx.tx_hash
+          )?.vote,
+        }))
       );
 
       const metaUrlResponses = [];

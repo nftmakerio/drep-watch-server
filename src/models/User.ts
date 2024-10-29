@@ -41,12 +41,12 @@ class UserModel {
     wallet_address: string
   ): Promise<{ pool_id: string | null; active: boolean } | undefined> {
     try {
-      // @ts-ignore Blockfrost didn't update their SDK
+      // @ts-ignore Blockfrost didn't update their SDK with the latest types
       const { drep_id, active } = await blockfrost.accounts(wallet_address);
 
       return { pool_id: drep_id, active };
     } catch (err: any) {
-      return err;
+      return undefined;
     }
   }
   static async getIsUserAdmin(drep_id: string): Promise<Boolean> {

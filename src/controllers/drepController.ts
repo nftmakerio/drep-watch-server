@@ -83,8 +83,8 @@ const getDrepProfile = async (req: Request, res: Response) => {
     const resBody = {
       questionsAsked: drepQuestions,
       questionsAnswers: drepAnswers,
-      image: drepMetadata?.json_metadata?.body?.image?.contentUrl,
-      name: drepMetadata?.json_metadata?.body?.givenName["@value"],
+      image: drepMetadata?.body?.image?.contentUrl,
+      name: drepMetadata?.body?.givenName["@value"],
     }; // response Body
     res.status(200).json(resBody);
   } catch (err: any) {
@@ -105,6 +105,11 @@ const getDrepSearch = async (req: Request, res: Response) => {
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
     }
+
+    res
+    .status(200)
+    .json(dreps);
+
   } catch (err: any) {
 
     res.status(err.status).json({ message: err.message });
