@@ -122,7 +122,6 @@ const getDreps = async (req: Request, res: Response) => {
       page = parseInt(req.query.page as string);
     }
     const dreps = await DrepModel.getDreps(page);
-    console.log(dreps);
     if (!dreps) {
       throw { status: 404, message: "No dreps found" };
     }

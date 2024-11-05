@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCache, setCache } from "../supabase/memcached";
 
 interface Drep {
   email: string | null;
@@ -6,7 +7,7 @@ interface Drep {
   drep_id: string;
 }
 
-const BATCHSIZE = 20;
+const BATCHSIZE = 50;
 
 class DrepModel {
   email: string | null;
@@ -17,15 +18,18 @@ class DrepModel {
     this.name = name;
     this.drep_id = drep_id;
   }
-  static async getDrep(id: string): Promise<
+  static async getDrep(
+    id: string,
+    ids?: string[]
+  ): Promise<
     | {
         drep_id: string;
         body: {
           image: {
-            contentUrl: string;
+            contentUrl: string | undefined;
           };
           givenName: {
-            "@value": string;
+            "@value": string | undefined;
           };
         };
       }
@@ -50,12 +54,27 @@ class DrepModel {
         `https://api.koios.rest/api/v1/drep_metadata`,
         {
           _drep_ids: [id],
+        },
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoic3Rha2UxdTloOXN1NGp2ejNnbXl6ZHJkbmF4bjJ6aGd2MHQ3bWx5NnQyMnlhNmZzcHA3NGNjeTdqbXoiLCJleHAiOjE3NjE3MzQyMzMsInRpZXIiOjEsInByb2pJRCI6ImRSZXBXYXRjaCJ9.qZJ1xYCKJN7XLmPHfroos6KvAPcP6EpMkpzIcoYmC3w",
+          },
         }
       );
 
       if (!data?.[0] || !data[0].url) return undefined;
 
-      const url = data[0].url;
+      let url = data[0].url;
+
+      url = url.includes("ipfs")
+        ? `https://dweb.link/ipfs/${url
+            .split("/")
+            .find(
+              (part, index, arr) =>
+                part === "ipfs" && index + 1 < arr.length && arr[index + 1]
+            )}`
+        : url;
 
       if (url) {
         const urlResponse = await axios.get(url);
@@ -70,11 +89,152 @@ class DrepModel {
           };
         }
       }
-      return undefined;
+      return {
+        drep_id: id,
+        body: {
+          givenName: {
+            "@value": undefined,
+          },
+          image: {
+            contentUrl: undefined,
+          },
+        },
+      };
+    } catch (err: any) {
+      // console.log(err);
+
+      return {
+        drep_id: id,
+        body: {
+          givenName: {
+            "@value": undefined,
+          },
+          image: {
+            contentUrl: undefined,
+          },
+        },
+      };
+    }
+  }
+
+  static async getBulkDrep(ids: string[]): Promise<
+    | {
+        drep_id: string;
+        body: {
+          image: {
+            contentUrl: string | undefined;
+          };
+          givenName: {
+            "@value": string | undefined;
+          };
+        };
+      }[]
+    | undefined
+  > {
+    try {
+      interface DrepMetadataResponse {
+        drep_id: string;
+        hex: string;
+        has_script: boolean;
+        url: string;
+        hash: string;
+        json: any;
+        bytes: any;
+        warning: any;
+        language: any;
+        comment: any;
+        is_valid: boolean;
+      }
+
+      const { data } = await axios.post<DrepMetadataResponse[]>(
+        `https://api.koios.rest/api/v1/drep_metadata`,
+        {
+          _drep_ids: ids.filter((drep) => drep.startsWith("drep1")),
+        },
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoic3Rha2UxdTloOXN1NGp2ejNnbXl6ZHJkbmF4bjJ6aGd2MHQ3bWx5NnQyMnlhNmZzcHA3NGNjeTdqbXoiLCJleHAiOjE3NjE3MzQyMzMsInRpZXIiOjEsInByb2pJRCI6ImRSZXBXYXRjaCJ9.qZJ1xYCKJN7XLmPHfroos6KvAPcP6EpMkpzIcoYmC3w",
+          },
+        }
+      );
+
+      if ((ids?.length ?? 0) > 0) {
+        const results = [];
+
+        for (const item of data) {
+          if (!item || !item.url) continue;
+
+          let url = item.url;
+
+          url = url.includes("ipfs")
+            ? `https://dweb.link/ipfs/${url
+                .split("/")
+                .find(
+                  (part, index, arr) =>
+                    part === "ipfs" && index + 1 < arr.length && arr[index + 1]
+                )}`
+            : url;
+
+          if (url) {
+            try {
+              const urlResponse = await axios.get(url);
+              if (urlResponse.status === 200) {
+                const urlData = urlResponse.data.body;
+                results.push({
+                  body: {
+                    givenName: { "@value": urlData.givenName },
+                    image: { contentUrl: urlData.image?.contentUrl },
+                  },
+                  drep_id: item.drep_id,
+                });
+              } else {
+                results.push({
+                  drep_id: item.drep_id,
+                  body: {
+                    givenName: {
+                      "@value": undefined,
+                    },
+                    image: {
+                      contentUrl: undefined,
+                    },
+                  },
+                });
+              }
+            } catch (error) {
+              results.push({
+                drep_id: item.drep_id,
+                body: {
+                  givenName: {
+                    "@value": undefined,
+                  },
+                  image: {
+                    contentUrl: undefined,
+                  },
+                },
+              });
+            }
+          } else {
+            results.push({
+              drep_id: item.drep_id,
+              body: {
+                givenName: {
+                  "@value": undefined,
+                },
+                image: {
+                  contentUrl: undefined,
+                },
+              },
+            });
+          }
+        }
+
+        return results.length > 0 ? results : undefined;
+      }
     } catch (err: any) {
       console.log(err);
 
-      return undefined;
+      return [];
     }
   }
 
@@ -106,8 +266,8 @@ class DrepModel {
       return {
         drep_id: data.drep_id,
         active: data?.active,
-        givenName: drepData?.body?.givenName["@value"],
-        image: drepData?.body?.image?.contentUrl,
+        givenName: drepData?.body?.givenName["@value"] ?? null,
+        image: drepData?.body?.image?.contentUrl ?? null,
       };
     } catch (err: any) {
       return err;
@@ -123,6 +283,13 @@ class DrepModel {
     | undefined
   > {
     try {
+      const CACHE_KEY = `dreps_page_${page}`;
+      const cachedDreps = await getCache(CACHE_KEY);
+
+      if (cachedDreps?.data) {
+        return JSON.parse(cachedDreps?.data);
+      }
+
       const { data } = await axios.get<
         {
           drep_id: string;
@@ -142,34 +309,44 @@ class DrepModel {
         image: string | null;
       }[] = [];
 
+      console.log(data.length);
+
       for (let i = 0; i < data.length; i += BATCHSIZE) {
         const batch = data
           .slice(i, i + BATCHSIZE)
-          .map(({ drep_id }) => this.getDrep(drep_id));
+          .map(({ drep_id }) => drep_id);
+
+        const results = await this.getBulkDrep(batch);
+
+        if (!results) continue;
 
         // Wait for all promises in the current batch to resolve
-        const results = await Promise.all(batch);
+        // const results = await Promise.all(batch);
+
+        console.log(i);
 
         response = response.concat(
           results
             .filter((result) => result !== undefined && result !== null)
             .map((result) => ({
               drep_id: result?.drep_id,
-              givenName: result?.body?.givenName["@value"],
-              image: result?.body?.image?.contentUrl,
+              givenName: result?.body?.givenName["@value"] ?? null,
+              image: result?.body?.image?.contentUrl ?? null,
             }))
         );
       }
 
-      if (!data) return undefined;
-
-      return response.concat(
+      const finalResponse = response.concat(
         data.map((drep) => ({
           drep_id: drep.drep_id,
           givenName: null,
           image: null,
         }))
       );
+
+      await setCache(CACHE_KEY, JSON.stringify(finalResponse));
+
+      return finalResponse;
     } catch (err: any) {
       return err;
     }
@@ -209,6 +386,8 @@ class DrepModel {
         {
           headers: {
             accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoic3Rha2UxdTloOXN1NGp2ejNnbXl6ZHJkbmF4bjJ6aGd2MHQ3bWx5NnQyMnlhNmZzcHA3NGNjeTdqbXoiLCJleHAiOjE3NjE3MzQyMzMsInRpZXIiOjEsInByb2pJRCI6ImRSZXBXYXRjaCJ9.qZJ1xYCKJN7XLmPHfroos6KvAPcP6EpMkpzIcoYmC3w",
           },
         }
       );
@@ -232,6 +411,8 @@ class DrepModel {
           headers: {
             accept: "application/json",
             "content-type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoic3Rha2UxdTloOXN1NGp2ejNnbXl6ZHJkbmF4bjJ6aGd2MHQ3bWx5NnQyMnlhNmZzcHA3NGNjeTdqbXoiLCJleHAiOjE3NjE3MzQyMzMsInRpZXIiOjEsInByb2pJRCI6ImRSZXBXYXRjaCJ9.qZJ1xYCKJN7XLmPHfroos6KvAPcP6EpMkpzIcoYmC3w",
           },
         }
       );
