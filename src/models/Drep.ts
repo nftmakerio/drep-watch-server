@@ -29,7 +29,12 @@ class DrepModel {
             contentUrl: string | undefined;
           };
           givenName: {
-            "@value": string | undefined;
+            "@value":
+              | string
+              | {
+                  "@value": string | undefined;
+                }
+              | undefined;
           };
         };
       }
@@ -266,7 +271,10 @@ class DrepModel {
       return {
         drep_id: data.drep_id,
         active: data?.active,
-        givenName: drepData?.body?.givenName["@value"] ?? null,
+        givenName:
+          typeof drepData?.body?.givenName["@value"] === "string"
+            ? drepData.body.givenName["@value"]
+            : drepData?.body?.givenName["@value"]?.["@value"] ?? null,
         image: drepData?.body?.image?.contentUrl ?? null,
       };
     } catch (err: any) {
@@ -330,7 +338,10 @@ class DrepModel {
             .filter((result) => result !== undefined && result !== null)
             .map((result) => ({
               drep_id: result?.drep_id,
-              givenName: result?.body?.givenName["@value"] ?? null,
+              givenName:
+                typeof result?.body?.givenName["@value"] === "string"
+                  ? result?.body.givenName["@value"]
+                  : result?.body?.givenName["@value"]?.["@value"] ?? null,
               image: result?.body?.image?.contentUrl ?? null,
             }))
         );
