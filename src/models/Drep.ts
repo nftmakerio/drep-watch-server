@@ -85,9 +85,18 @@ class DrepModel {
         const urlResponse = await axios.get(url);
         if (urlResponse.status === 200) {
           const urlData = urlResponse.data.body;
+
+          console.log(urlData);
+
+          const drepName =
+            typeof urlData?.givenName === "string"
+              ? urlData?.givenName
+              : typeof urlData?.givenName["@value"] === "string"
+              ? urlData.givenName["@value"]
+              : urlData?.givenName["@value"]?.["@value"] ?? null;
           return {
             body: {
-              givenName: { "@value": urlData.givenName },
+              givenName: { "@value": drepName },
               image: { contentUrl: urlData.image?.contentUrl },
             },
             drep_id: id,
@@ -186,9 +195,19 @@ class DrepModel {
               const urlResponse = await axios.get(url);
               if (urlResponse.status === 200) {
                 const urlData = urlResponse.data.body;
+                const drepName =
+                  typeof urlData.givenName?.body?.givenName === "string"
+                    ? urlData.givenName?.body?.givenName
+                    : typeof urlData.givenName?.body?.givenName["@value"] ===
+                      "string"
+                    ? urlData.givenName.body.givenName["@value"]
+                    : urlData.givenName?.body?.givenName["@value"]?.[
+                        "@value"
+                      ] ?? null;
+
                 results.push({
                   body: {
-                    givenName: { "@value": urlData.givenName },
+                    givenName: { "@value": drepName },
                     image: { contentUrl: urlData.image?.contentUrl },
                   },
                   drep_id: item.drep_id,
@@ -267,12 +286,16 @@ class DrepModel {
 
       const drepData = await this.getDrep(search_query);
 
+      console.log(drepData);
+
       if (!data || !drepData) return undefined;
       return {
         drep_id: data.drep_id,
         active: data?.active,
         givenName:
-          typeof drepData?.body?.givenName["@value"] === "string"
+          typeof drepData?.body?.givenName === "string"
+            ? drepData?.body?.givenName
+            : typeof drepData?.body?.givenName["@value"] === "string"
             ? drepData.body.givenName["@value"]
             : drepData?.body?.givenName["@value"]?.["@value"] ?? null,
         image: drepData?.body?.image?.contentUrl ?? null,
@@ -339,7 +362,9 @@ class DrepModel {
             .map((result) => ({
               drep_id: result?.drep_id,
               givenName:
-                typeof result?.body?.givenName["@value"] === "string"
+                typeof result?.body?.givenName === "string"
+                  ? result?.body?.givenName
+                  : typeof result?.body?.givenName["@value"] === "string"
                   ? result?.body.givenName["@value"]
                   : result?.body?.givenName["@value"]?.["@value"] ?? null,
               image: result?.body?.image?.contentUrl ?? null,
