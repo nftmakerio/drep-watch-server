@@ -64,7 +64,7 @@ const createUser = async (
 const getUser = async (req: Request, res: Response) => {
   try {
     const wallet_address = req.body.wallet_address;
-    const drep_id = req.body.wallet_address;
+    const drep_id = req.body.drep_id;
 
     if (!wallet_address || !drep_id)
       throw {
@@ -78,6 +78,8 @@ const getUser = async (req: Request, res: Response) => {
     if (!user) throw { status: 400, message: "User does not exist" };
 
     const delegatedTo = await UserModel.getUserDelegatedTo(wallet_address);
+
+    console.log(user)
 
     const resBody = {
       name: user.name,

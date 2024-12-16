@@ -3,14 +3,14 @@ import { blockfrost } from "../blockfrost";
 import supabase from "../supabase/db";
 
 interface User {
-  email: string;
-  name: string;
+  email: string | null;
+  name: string | null;
   wallet_address: string;
   is_admin: boolean;
 }
 class UserModel {
-  email: string;
-  name: string;
+  email: string | null;
+  name: string | null;
   wallet_address: string;
   constructor({ email, name, wallet_address }: User) {
     this.email = email;
@@ -22,19 +22,20 @@ class UserModel {
     drep_id: string
   ): Promise<User | undefined> {
     try {
-      const { data, error } = await supabase
-        .from("users")
-        .select("name,email,wallet_address")
-        .eq("wallet_address", wallet_address)
-        .single();
 
       const isAdmin = await this.getIsUserAdmin(drep_id);
 
-      if (error) throw error;
-      if (!data) return undefined;
-      return { ...data, is_admin: isAdmin } as User;
+      console.log(isAdmin);
+
+      return {
+        name: null,
+        email:  null,
+        wallet_address: wallet_address,
+        is_admin: isAdmin,
+      } as User;
     } catch (err: any) {
-      return err;
+      console.log(err)
+      return undefined;
     }
   }
   static async getUserDelegatedTo(
@@ -62,10 +63,13 @@ class UserModel {
         }
       );
 
+      console.log(data);
+
       // if (error) throw error;
       if (!data) return false;
       return data.active;
     } catch (err: any) {
+      console.log(err);
       return false;
     }
   }
