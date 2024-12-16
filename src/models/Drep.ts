@@ -72,19 +72,20 @@ class DrepModel {
       if (!data?.[0] || !data[0].meta_url || !data[0].meta_json)
         return undefined;
 
-      console.log(data[0].meta_json);
-
       if (data[0].meta_json) {
+
         const drepName =
-          typeof data[0].meta_json?.givenName === "string"
-            ? data[0].meta_json?.givenName
-            : typeof data[0].meta_json?.givenName["@value"] === "string"
-            ? data[0].meta_json.givenName["@value"]
-            : data[0].meta_json?.givenName["@value"]?.["@value"] ?? null;
+          typeof data[0].meta_json?.body?.givenName === "string"
+            ? data[0].meta_json?.body?.givenName
+            : typeof data[0].meta_json?.body?.givenName["@value"] === "string"
+            ? data[0].meta_json?.body.givenName["@value"]
+            : data[0].meta_json?.body?.givenName["@value"]?.["@value"] ?? null;
+
+
         return {
           body: {
             givenName: { "@value": drepName },
-            image: { contentUrl: data[0].meta_json.image?.contentUrl },
+            image: { contentUrl: data[0].meta_json?.body?.image?.contentUrl },
           },
           drep_id: id,
         };
@@ -122,19 +123,19 @@ class DrepModel {
             };
           }
         }
+      } else {
+        return {
+          drep_id: id,
+          body: {
+            givenName: {
+              "@value": undefined,
+            },
+            image: {
+              contentUrl: undefined,
+            },
+          },
+        };
       }
-
-      return {
-        drep_id: id,
-        body: {
-          givenName: {
-            "@value": undefined,
-          },
-          image: {
-            contentUrl: undefined,
-          },
-        },
-      };
     } catch (err: any) {
       // console.log(err);
 
