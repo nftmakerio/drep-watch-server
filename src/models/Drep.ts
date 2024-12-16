@@ -45,7 +45,7 @@ class DrepModel {
         drep_id: string;
         hex: string;
         has_script: boolean;
-        url: string;
+        meta_url: string;
         hash: string;
         json: any;
         bytes: any;
@@ -53,6 +53,7 @@ class DrepModel {
         language: any;
         comment: any;
         is_valid: boolean;
+        meta_json: any;
       }
 
       const { data } = await axios.post<DrepMetadataResponse[]>(
@@ -68,41 +69,61 @@ class DrepModel {
         }
       );
 
-      if (!data?.[0] || !data[0].url) return undefined;
+      if (!data?.[0] || !data[0].meta_url || !data[0].meta_json)
+        return undefined;
 
-      let url = data[0].url;
+      console.log(data[0].meta_json);
 
-      url = url.includes("ipfs")
-        ? `https://dweb.link/ipfs/${url
-            .split("/")
-            .find(
-              (part, index, arr) =>
-                part === "ipfs" && index + 1 < arr.length && arr[index + 1]
-            )}`
-        : url;
+      if (data[0].meta_json) {
+        const drepName =
+          typeof data[0].meta_json?.givenName === "string"
+            ? data[0].meta_json?.givenName
+            : typeof data[0].meta_json?.givenName["@value"] === "string"
+            ? data[0].meta_json.givenName["@value"]
+            : data[0].meta_json?.givenName["@value"]?.["@value"] ?? null;
+        return {
+          body: {
+            givenName: { "@value": drepName },
+            image: { contentUrl: data[0].meta_json.image?.contentUrl },
+          },
+          drep_id: id,
+        };
+      } else if (data[0].meta_url) {
+        let url = data[0].meta_url;
 
-      if (url) {
-        const urlResponse = await axios.get(url);
-        if (urlResponse.status === 200) {
-          const urlData = urlResponse.data.body;
+        url = url.includes("ipfs")
+          ? `https://dweb.link/ipfs/${url
+              .split("/")
+              .find(
+                (part, index, arr) =>
+                  part === "ipfs" && index + 1 < arr.length && arr[index + 1]
+              )}`
+          : url;
 
-          console.log(urlData);
+        if (url) {
+          const urlResponse = await axios.get(url);
+          if (urlResponse.status === 200) {
+            const urlData = urlResponse.data.body;
 
-          const drepName =
-            typeof urlData?.givenName === "string"
-              ? urlData?.givenName
-              : typeof urlData?.givenName["@value"] === "string"
-              ? urlData.givenName["@value"]
-              : urlData?.givenName["@value"]?.["@value"] ?? null;
-          return {
-            body: {
-              givenName: { "@value": drepName },
-              image: { contentUrl: urlData.image?.contentUrl },
-            },
-            drep_id: id,
-          };
+            console.log(urlData);
+
+            const drepName =
+              typeof urlData?.givenName === "string"
+                ? urlData?.givenName
+                : typeof urlData?.givenName["@value"] === "string"
+                ? urlData.givenName["@value"]
+                : urlData?.givenName["@value"]?.["@value"] ?? null;
+            return {
+              body: {
+                givenName: { "@value": drepName },
+                image: { contentUrl: urlData.image?.contentUrl },
+              },
+              drep_id: id,
+            };
+          }
         }
       }
+
       return {
         drep_id: id,
         body: {
